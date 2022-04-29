@@ -1,0 +1,3 @@
+*
+!dist/**/*
+# license, package, readme always included

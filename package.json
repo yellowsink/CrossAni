@@ -1,0 +1,17 @@
+{
+  "name": "crossani",
+  "version": "1.0.0",
+  "description": "An sikly smooth animation library, leveraging CSS transitions",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "prepublish": "tsc && esbuild src/*.ts --format=cjs --outdir=dist/cjs"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.14.38",
+    "typescript": "^4.6.4"
+  }
+}
