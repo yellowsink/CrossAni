@@ -20,22 +20,10 @@ export function popAll(elem: HTMLElement) {
   updateStyles(elem);
 }
 
-/* export function cancelAnimating(elem: HTMLElement) {
-  const [state] = getOrInitStore(elem);
-  state.CANCEL = state.queue[0];
-  // hopefully this cuts off?
-  elem.style.transition = "none";
-} */
-
 export function startAnimating(elem: HTMLElement) {
   const [state] = getOrInitStore(elem);
   const transition = state.queue[0];
   if (!transition) return;
-
-  /* if (state.CANCEL === transition) {
-    state.CANCEL = undefined;
-    return;
-  } */
 
   if (transition.cutOff) {
     //cancelAnimating(elem);
@@ -47,31 +35,28 @@ export function startAnimating(elem: HTMLElement) {
   const transitionString = generateTransition(state.curr, transition);
 
   // update styles
-  if (transition.reset) state.curr = transition.state;
+  if (transition.reset) state.curr = { ...transition.state };
   else Object.assign(state.curr, transition.state);
 
   // run transition
   elem.style.transition = transitionString;
   updateStyles(elem);
 
-  const promise = state.transitionPromises.get(transition);
-  if (!promise) throw new Error("promise was missing from state");
-
-  const [, res, rej] = promise;
-
+  let timedout = false;
   // listen for finish
   eventOrTimeout(
     elem,
     () => {
+      // just incase an animation finished >20ms late
+      if (timedout) return;
+
       state.queue.shift();
       startAnimating(elem);
-      res();
+      state.transitionPromises.shift()?.[2]();
+
+      timedout = true;
     },
-    () => {
-      state.queue.shift();
-      startAnimating(elem);
-      rej("transitionend did not fire within 100ms of transition end");
-    },
-    transition.ms + 100
+    // give the transition 20ms of room to end early
+    transition.ms + 20
   );
 }

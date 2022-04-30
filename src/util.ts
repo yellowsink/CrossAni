@@ -17,7 +17,7 @@ export function getOrInitStore(elem: HTMLElement): [ElementState, boolean] {
     curr: {},
     orig: cloneStyles(elem.style),
     queue: [],
-    transitionPromises: new WeakMap(),
+    transitionPromises: [],
   };
   // new element
   stateStore.set(elem, newState);
@@ -39,25 +39,18 @@ export function queueTransition(elem: HTMLElement, transition: Transition) {
   state.queue.push(transition);
 
   let resolve: () => void;
-  let reject: (v?: any) => void;
-  const promise = new Promise<void>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
+  const promise = new Promise<void>((res) => (resolve = res));
 
-  state.transitionPromises.set(transition, [
-    promise,
-    () => resolve(),
-    (v?: any) => reject(v),
-  ]);
+  state.transitionPromises.push([transition, promise, () => resolve()]);
 
   return state.queue.length === 1;
 }
 
 /** Gets the promise for a given transition */
 export const getPromise = (elem: HTMLElement, transition: Transition) =>
-  getOrInitStore(elem)[0].transitionPromises.get(transition)?.[0] ??
-  Promise.reject("promise was missing from state");
+  getOrInitStore(elem)[0].transitionPromises.find(
+    (t) => t[0] === transition
+  )?.[1] ?? Promise.reject("promise was missing from state");
 
 /** removes transition properties from states */
 export function sanitiseTransitions(elem: HTMLElement) {
@@ -76,7 +69,6 @@ export function sanitiseTransitions(elem: HTMLElement) {
 export const eventOrTimeout = (
   elem: HTMLElement,
   resolve: () => void,
-  reject: () => void,
   timeout: number
 ) =>
   void setTimeout(() => {
@@ -94,6 +86,6 @@ export const eventOrTimeout = (
       if (cancel) return;
       cancel = true;
       elem.removeEventListener("transitionend", handler);
-      reject();
+      resolve();
     }, timeout);
   });

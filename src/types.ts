@@ -27,10 +27,7 @@ interface ElementState {
   /** Don't use directly: flag used to cut off queue advancement */
   //CANCEL?: Transition;
   /** Stores promises for transition completion */
-  transitionPromises: WeakMap<
-    Transition,
-    [Promise<void>, () => void, (v?: any) => void]
-  >;
+  transitionPromises: [Transition, Promise<void>, () => void][];
 }
 
 declare interface HTMLElement {
