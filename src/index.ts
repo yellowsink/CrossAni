@@ -1,13 +1,37 @@
-import { stateStore } from "./shared";
+import { startAnimating } from "./animator";
+import { EASE, JUMP } from "./generator";
+import { getPromise, queueTransition, sanitiseTransitions } from "./util";
 
-export * from "./easing";
+export { EASE, JUMP } from "./generator";
 
-HTMLElement.prototype.doTransition = function (name) {
-  if (!this.transitions)
-    throw new Error(`${this.tagName} #${this.id} does not have transitions`);
+export function load() {
+  HTMLElement.prototype.doTransition = function (name): Promise<void> {
+    if (!this.transitions)
+      throw new Error(`${this.tagName} #${this.id} does not have transitions`);
 
-  const transition = this.transitions[name];
+    // just to be sure the user isnt breaking things
+    sanitiseTransitions(this);
 
-  if (!transition)
-    throw new Error(`${this.tagName} #${this.id} has no transition "${name}"`);
-};
+    const transition = this.transitions[name];
+
+    if (!transition)
+      throw new Error(
+        `${this.tagName} #${this.id} has no transition "${name}"`
+      );
+
+    const notAnimating = queueTransition(this, transition);
+    if (notAnimating) startAnimating(this);
+
+    return getPromise(this, transition);
+  };
+}
+
+// @ts-expect-error, shut up TS
+export const unload = () => delete HTMLElement.prototype.doTransition;
+
+// DEBUG //
+load();
+// @ts-expect-error
+window.EASE = EASE;
+// @ts-expect-error
+window.JUMP = JUMP;

@@ -39,3 +39,13 @@ export const JUMP: Jumps = {
   none: "jump-none",
   both: "jump-both",
 };
+
+export const generateTransition = (
+  prevState: Record<string, string>,
+  transition: Transition
+) =>
+  distinct([...Object.keys(transition.state), ...Object.keys(prevState)])
+    .map((p) => `${p} ${transition.ms}ms ${transition.easing}`)
+    .join(",");
+
+export const distinct = <T>(arr: T[]) => Array.from(new Set(arr));

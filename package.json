@@ -6,7 +6,7 @@
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "prepublish": "tsc && esbuild src/*.ts --format=cjs --outdir=dist/cjs"
+    "prepublish": "tsc && esbuild src/*.ts --format=cjs --outdir=dist/cjs && esbuild src/index.ts --bundle --outfile=dist/bundle.js"
   },
   "author": "",
   "license": "MIT",
