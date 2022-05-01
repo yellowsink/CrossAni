@@ -43,10 +43,3 @@ export function load() {
 
 // @ts-expect-error, shut up TS
 export const unload = () => delete HTMLElement.prototype.doTransition;
-
-// DEBUG //
-load();
-// @ts-expect-error
-window.EASE = EASE;
-// @ts-expect-error
-window.JUMP = JUMP;
