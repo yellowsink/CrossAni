@@ -1,6 +1,11 @@
-import { startAnimating } from "./animator";
+import { abortAnimation, popAll, startAnimating } from "./animator";
 import { EASE, JUMP } from "./generator";
-import { getPromise, queueTransition, sanitiseTransitions } from "./util";
+import {
+  getPromise,
+  queueTransition,
+  sanitiseTransitions,
+  whenTransitionAborts,
+} from "./util";
 
 export { EASE, JUMP } from "./generator";
 
@@ -19,8 +24,18 @@ export function load() {
         `${this.tagName} #${this.id} has no transition "${name}"`
       );
 
+    if (transition.cutOff) {
+      abortAnimation(this);
+      popAll(this);
+    }
+
     const notAnimating = queueTransition(this, transition);
-    if (notAnimating) startAnimating(this);
+    if (notAnimating) {
+      if (!transition.cutOff) startAnimating(this);
+      // wait for the transition to snap to the end
+      // or itll start from halfway through the previous transition
+      else whenTransitionAborts(this, () => startAnimating(this));
+    }
 
     return getPromise(this, transition);
   };

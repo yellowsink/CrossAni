@@ -24,8 +24,6 @@ interface ElementState {
   curr: Record<string, string>;
   /** Animations queued to run. First transition is currently running */
   queue: Transition[];
-  /** Don't use directly: flag used to cut off queue advancement */
-  //CANCEL?: Transition;
   /** Stores promises for transition completion */
   transitionPromises: [Transition, Promise<void>, () => void][];
 }

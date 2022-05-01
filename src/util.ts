@@ -9,9 +9,9 @@ export function cloneStyles(styles: CSSStyleDeclaration) {
 }
 
 /** Gets a store or inits if needed */
-export function getOrInitStore(elem: HTMLElement): [ElementState, boolean] {
+export function getOrInitStore(elem: HTMLElement): ElementState {
   const state = stateStore.get(elem);
-  if (state) return [state, false];
+  if (state) return state;
 
   const newState = {
     curr: {},
@@ -21,13 +21,12 @@ export function getOrInitStore(elem: HTMLElement): [ElementState, boolean] {
   };
   // new element
   stateStore.set(elem, newState);
-  return [newState, true];
+  return newState;
 }
 
 /** Updates the style tag according to the latest transition state etc */
 export function updateStyles(elem: HTMLElement) {
-  const [state, created] = getOrInitStore(elem);
-  if (created) return;
+  const state = getOrInitStore(elem);
 
   elem.style.cssText = `transition:${elem.style.transition}`;
   Object.assign(elem.style, state.orig, state.curr);
@@ -35,7 +34,7 @@ export function updateStyles(elem: HTMLElement) {
 
 /** Queues a transition. Returns true if the element is not currently animati */
 export function queueTransition(elem: HTMLElement, transition: Transition) {
-  const [state] = getOrInitStore(elem);
+  const state = getOrInitStore(elem);
   state.queue.push(transition);
 
   let resolve: () => void;
@@ -48,7 +47,7 @@ export function queueTransition(elem: HTMLElement, transition: Transition) {
 
 /** Gets the promise for a given transition */
 export const getPromise = (elem: HTMLElement, transition: Transition) =>
-  getOrInitStore(elem)[0].transitionPromises.find(
+  getOrInitStore(elem).transitionPromises.find(
     (t) => t[0] === transition
   )?.[1] ?? Promise.reject("promise was missing from state");
 
@@ -66,6 +65,7 @@ export function sanitiseTransitions(elem: HTMLElement) {
   }
 }
 
+/** listens for transitionend, but with a timeout */
 export const eventOrTimeout = (
   elem: HTMLElement,
   resolve: () => void,
@@ -89,3 +89,18 @@ export const eventOrTimeout = (
       resolve();
     }, timeout);
   });
+
+/** Waits for an element to finish transitioning before running callback, always run abortAnimation first */
+export const whenTransitionAborts = (
+  elem: HTMLElement,
+  callback: () => void
+) => {
+  // see comment above usage in index.ts
+
+  const animateOnceStopped = () =>
+    requestAnimationFrame(
+      elem.style.transitionProperty === "none" ? callback : animateOnceStopped
+    );
+
+  requestAnimationFrame(animateOnceStopped);
+};
