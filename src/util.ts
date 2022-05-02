@@ -19,6 +19,9 @@ export function getOrInitStore(elem: HTMLElement): ElementState {
     queue: [],
     transitionPromises: [],
   };
+
+  sanitiseStyleObject(newState.orig);
+
   // new element
   stateStore.set(elem, newState);
   return newState;
@@ -51,17 +54,21 @@ export const getPromise = (elem: HTMLElement, transition: Transition) =>
     (t) => t[0] === transition
   )?.[1] ?? Promise.reject("promise was missing from state");
 
+function sanitiseStyleObject(obj: Record<string, string>) {
+  delete obj.transition;
+  delete obj["transition-delay"];
+  delete obj["transition-duration"];
+  delete obj["transition-property"];
+  delete obj["transition-timing-function"];
+}
+
 /** removes transition properties from states */
 export function sanitiseTransitions(elem: HTMLElement) {
   if (elem.transitions === undefined) return;
 
   for (const transition of Object.values(elem.transitions)) {
     if (!transition) continue;
-    delete transition.state.transition;
-    delete transition.state.transitionDelay;
-    delete transition.state.transitionDuration;
-    delete transition.state.transitionProperty;
-    delete transition.state.transitionTimingFunction;
+    sanitiseStyleObject(transition.state);
   }
 }
 
