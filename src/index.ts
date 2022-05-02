@@ -1,5 +1,4 @@
 import { abortAnimation, popAll, startAnimating } from "./animator";
-import { EASE, JUMP } from "./generator";
 import {
   getPromise,
   queueTransition,
