@@ -1,17 +1,14 @@
 {
-  "name": "crossani",
-  "version": "1.0.0",
-  "description": "An sikly smooth animation library, leveraging CSS transitions",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "name": "crossani-monorepo",
+  "private": true,
   "scripts": {
-    "prepublish": "tsc && esbuild src/*.ts --format=cjs --outdir=dist/cjs && esbuild src/browser.ts --bundle --outfile=dist/bundle.js"
+    "build:crossani": "cd packages/crossani && pnpm build",
+    "prepublish": "pnpm build:crossani"
   },
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "esbuild": "^0.14.38",
-    "typescript": "^4.6.4"
+  "packageManager": "pnpm@7.0.0",
+  "pnpm": {
+    "overrides": {
+      "crossani": "workspace:*"
+    }
   }
 }
