@@ -8,7 +8,7 @@
     "scripts": {
       "build": "tsc && esbuild src/*.ts --format=cjs --outdir=dist/cjs && esbuild src/browser.ts --bundle --outfile=dist/bundle.js"
     },
-    "author": "",
+    "author": "Cain Atkinson",
     "license": "MIT",
     "devDependencies": {
       "esbuild": "^0.14.38",
