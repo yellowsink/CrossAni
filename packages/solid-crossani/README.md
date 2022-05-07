@@ -59,7 +59,7 @@ export default () => {
         alternate: {
           state: { "margin-top": "2rem" },
           ms: 250,
-          easing: out,
+          easing: EASE.out,
         },
       }}
     >
