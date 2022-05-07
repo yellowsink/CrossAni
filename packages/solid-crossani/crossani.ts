@@ -1,6 +1,7 @@
 import { Accessor, createEffect, Setter } from "solid-js";
 
-export default (el: Element, args: CrossAniArgs) => {
+export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
+  const args = argsAccessor();
   const trigger = Array.isArray(args) ? args[0] : args;
   const stateOut = Array.isArray(args) ? args[1] : undefined;
 
