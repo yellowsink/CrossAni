@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc && esbuild crossani.ts --format=cjs --outfile=dist/cjs.js"
   },
-  "author": "",
+  "author": "Cain Atkinson",
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.14.38",

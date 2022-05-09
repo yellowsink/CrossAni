@@ -157,7 +157,7 @@ All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as th
 |              |   Colour type conv |     ✅      |    ✅     | Wrong interp |    ✅     |
 |              |   To/from CSS vars |     ✅      |    ✅     |      ❌      |    ❌     |
 |              |  To/from CSS funcs |     ✅      |    ✅     |      ❌      |    ❌     |
-|              |   Animate CSS vars |     ✅      |    ✅     |      ❌      |    ❌     |
+|              |   Animate CSS vars |     ❌      |    ✅     |      ❌      |    ❌     |
 |              |   Simple keyframes |  ❌ Soon?   |    ✅     |      ✅      |    ❌     |
 |              | Wildcard keyframes |     N/A     |    ✅     |      ❌      |    ❌     |
 |              |    Relative values |     ❌      |    ✅     |      ❌      |    ❌     |
