@@ -2,13 +2,18 @@
   "name": "crossani-monorepo",
   "private": true,
   "scripts": {
+    "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist",
     "build:crossani": "cd packages/crossani && pnpm build",
-    "prepublish": "pnpm build:crossani"
+    "build:solid": "cd packages/solid-crossani && pnpm build",
+    "build:test:solid": "cd packages/solid-test && pnpm build",
+    "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid"
   },
   "packageManager": "pnpm@7.0.0",
   "pnpm": {
     "overrides": {
-      "crossani": "workspace:*"
+      "crossani": "workspace:*",
+      "solid-crossani": "workspace:*",
+      "solid-test": "workspace:*"
     }
   }
 }
