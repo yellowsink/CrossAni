@@ -2,7 +2,7 @@ import { generateTransition } from "./generator";
 import { eventOrTimeout, getOrInitStore, updateStyles } from "./util";
 
 /** Pops the first transition off the queue instantly */
-function popFirst(elem: HTMLElement) {
+function popFirst(elem: HTMLElement | SVGElement) {
   const state = getOrInitStore(elem);
   const transition = state.queue.shift();
   if (transition === undefined) return false;
@@ -18,15 +18,15 @@ function popFirst(elem: HTMLElement) {
 }
 
 /** Pops all transitions off the queue instantly and applies relevant CSS */
-export function popAll(elem: HTMLElement) {
+export function popAll(elem: HTMLElement | SVGElement) {
   while (popFirst(elem)) {}
   updateStyles(elem);
 }
 
-export const abortAnimation = (elem: HTMLElement) =>
+export const abortAnimation = (elem: HTMLElement | SVGElement) =>
   (elem.style.transition = "none");
 
-export function startAnimating(elem: HTMLElement) {
+export function startAnimating(elem: HTMLElement | SVGElement) {
   const state = getOrInitStore(elem);
   const transition = state.queue[0];
   if (!transition) return;

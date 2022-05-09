@@ -28,9 +28,11 @@ interface ElementState {
   transitionPromises: [Transition, Promise<void>, () => void][];
 }
 
-declare interface HTMLElement {
+declare interface Element {
   /** A string map of transitions available on this element */
   transitions?: Record<string, undefined | Transition>;
-  /** Runs transitions defined in HTMLElement.transitions by name */
+  /** Runs transitions defined in Element.transitions by name */
   doTransition(name: string): void;
+  /** Removes CrossAni from this element */
+  removeCrossAni(): void;
 }

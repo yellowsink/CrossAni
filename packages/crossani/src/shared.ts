@@ -1,1 +1,1 @@
-export const stateStore = new WeakMap<HTMLElement, ElementState>();
+export const stateStore = new Map<HTMLElement | SVGElement, ElementState>();

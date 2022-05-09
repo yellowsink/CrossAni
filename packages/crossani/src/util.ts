@@ -9,7 +9,7 @@ export function cloneStyles(styles: CSSStyleDeclaration) {
 }
 
 /** Gets a store or inits if needed */
-export function getOrInitStore(elem: HTMLElement): ElementState {
+export function getOrInitStore(elem: HTMLElement | SVGElement): ElementState {
   const state = stateStore.get(elem);
   if (state) return state;
 
@@ -28,7 +28,7 @@ export function getOrInitStore(elem: HTMLElement): ElementState {
 }
 
 /** Updates the style tag according to the latest transition state etc */
-export function updateStyles(elem: HTMLElement) {
+export function updateStyles(elem: HTMLElement | SVGElement) {
   const state = getOrInitStore(elem);
 
   elem.style.cssText = `transition:${elem.style.transition}`;
@@ -36,7 +36,7 @@ export function updateStyles(elem: HTMLElement) {
 }
 
 /** Queues a transition. Returns true if the element is not currently animati */
-export function queueTransition(elem: HTMLElement, transition: Transition) {
+export function queueTransition(elem: HTMLElement | SVGElement, transition: Transition) {
   const state = getOrInitStore(elem);
   state.queue.push(transition);
 
@@ -49,7 +49,7 @@ export function queueTransition(elem: HTMLElement, transition: Transition) {
 }
 
 /** Gets the promise for a given transition */
-export const getPromise = (elem: HTMLElement, transition: Transition) =>
+export const getPromise = (elem: HTMLElement | SVGElement, transition: Transition) =>
   getOrInitStore(elem).transitionPromises.find(
     (t) => t[0] === transition
   )?.[1] ?? Promise.reject("promise was missing from state");
@@ -63,7 +63,7 @@ function sanitiseStyleObject(obj: Record<string, string>) {
 }
 
 /** removes transition properties from states */
-export function sanitiseTransitions(elem: HTMLElement) {
+export function sanitiseTransitions(elem: HTMLElement | SVGElement) {
   if (elem.transitions === undefined) return;
 
   for (const transition of Object.values(elem.transitions)) {
@@ -74,7 +74,7 @@ export function sanitiseTransitions(elem: HTMLElement) {
 
 /** listens for transitionend, but with a timeout */
 export const eventOrTimeout = (
-  elem: HTMLElement,
+  elem: HTMLElement | SVGElement,
   resolve: () => void,
   timeout: number
 ) =>
@@ -99,7 +99,7 @@ export const eventOrTimeout = (
 
 /** Waits for an element to finish transitioning before running callback, always run abortAnimation first */
 export const whenTransitionAborts = (
-  elem: HTMLElement,
+  elem: HTMLElement | SVGElement,
   callback: () => void
 ) => {
   // see comment above usage in index.ts
