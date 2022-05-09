@@ -8,6 +8,7 @@ export default () =>
       const store = getOrInitStore(this);
       popAll(this);
       store.curr = {};
+      this.style.transition = "";
       updateStyles(this);
       stateStore.delete(this);
     });
