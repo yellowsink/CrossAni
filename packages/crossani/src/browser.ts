@@ -1,7 +1,6 @@
-import { load, unload } from ".";
+import { unload } from ".";
 import { EASE, JUMP } from "./generator";
 
-load();
 // @ts-expect-error
 window.EASE = EASE;
 // @ts-expect-error

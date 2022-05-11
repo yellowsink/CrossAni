@@ -1,3 +1,4 @@
+import { EASE } from "./generator";
 import { stateStore } from "./shared";
 
 /** Converts a CSSStyleDeclaration to a Record<string, string> */
@@ -36,7 +37,10 @@ export function updateStyles(elem: HTMLElement | SVGElement) {
 }
 
 /** Queues a transition. Returns true if the element is not currently animati */
-export function queueTransition(elem: HTMLElement | SVGElement, transition: Transition) {
+export function queueTransition(
+  elem: HTMLElement | SVGElement,
+  transition: Transition
+): [boolean, Promise<void>] {
   const state = getOrInitStore(elem);
   state.queue.push(transition);
 
@@ -45,14 +49,8 @@ export function queueTransition(elem: HTMLElement | SVGElement, transition: Tran
 
   state.transitionPromises.push([transition, promise, () => resolve()]);
 
-  return state.queue.length === 1;
+  return [state.queue.length === 1, promise];
 }
-
-/** Gets the promise for a given transition */
-export const getPromise = (elem: HTMLElement | SVGElement, transition: Transition) =>
-  getOrInitStore(elem).transitionPromises.find(
-    (t) => t[0] === transition
-  )?.[1] ?? Promise.reject("promise was missing from state");
 
 function sanitiseStyleObject(obj: Record<string, string>) {
   delete obj.transition;
@@ -64,10 +62,10 @@ function sanitiseStyleObject(obj: Record<string, string>) {
 
 /** removes transition properties from states */
 export function sanitiseTransitions(elem: HTMLElement | SVGElement) {
-  if (elem.transitions === undefined) return;
+  if (!elem.transitions) return;
 
   for (const transition of Object.values(elem.transitions)) {
-    if (!transition) continue;
+    if (!transition?.state) continue;
     sanitiseStyleObject(transition.state);
   }
 }
@@ -111,3 +109,14 @@ export const whenTransitionAborts = (
 
   requestAnimationFrame(animateOnceStopped);
 };
+
+/** Sets defaults of a transition object */
+export const transitionDefaults = (trans: PartialTransition): Transition =>
+  Object.assign(
+    {
+      state: {},
+      easing: EASE.ease,
+      ms: 100,
+    } as Transition,
+    trans
+  );

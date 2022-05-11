@@ -12,9 +12,14 @@ interface Transition {
   cutOff?: boolean;
 }
 
-/* interface TransitionCollection extends Record<string, Transition> {
-  default: Transition;
-} */
+/** A transition that may have missing properties */
+interface PartialTransition {
+  state?: Record<string, string>;
+  ms?: number;
+  easing?: string;
+  reset?: boolean;
+  cutOff?: boolean;
+}
 
 /** @internal */
 interface ElementState {
@@ -30,9 +35,9 @@ interface ElementState {
 
 declare interface Element {
   /** A string map of transitions available on this element */
-  transitions?: Record<string, undefined | Transition>;
+  transitions?: Record<string, undefined | PartialTransition>;
   /** Runs transitions defined in Element.transitions by name */
-  doTransition(name: string): void;
+  doTransition(name: PartialTransition | string): void;
   /** Removes CrossAni from this element */
   removeCrossAni(): void;
 }

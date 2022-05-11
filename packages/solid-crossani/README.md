@@ -2,22 +2,17 @@
 
 Bringing the awesome CrossAni transition and animation framework to SolidJS.
 
-## Adding to your Solid project
+## Installation
 
-1. Install solid-crossani and crossani: `npm i crossani solid-crossani`
+Install solid-crossani and crossani:
 
-2. In your `index.jsx`, make sure to init CrossAni:
+- `npm i crossani solid-crossani`
+- `pnpm i crossani solid-crossani`
+- `yarn add crossani solid-crossani`
 
-```jsx
-import { load as loadCrossani } from "crossani";
+That's it.
 
-/* mounting app etc */
-
-// don't worry about accidentally calling this more than once
-loadCrossani();
-```
-
-## Using in your components
+## Usage
 
 1. In your component, import `EASE` from crossani and import `solid-crossani`, like so:
 
@@ -26,7 +21,7 @@ import { EASE } from "crossani";
 import crossani from "solid-crossani";
 // !!!! this may be required to stop vite and/or typescript
 // !!!! removing the import even though you do need it
-false && crossani; // it will be minified out of existence.
+false && crossani; // it will be minified out of your dist.
 ```
 
 2. Create a signal to trigger animations, and add a `use:crossani`:

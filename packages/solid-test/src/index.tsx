@@ -7,7 +7,7 @@ import crossani from "solid-crossani";
 // minified away, stops TSC removing the import
 false && crossani;
 
-import { EASE, load as loadCrossani } from "crossani";
+import { EASE } from "crossani";
 
 const App: Component = () => {
   const [trigger, setTrigger] = createSignal("");
@@ -93,7 +93,3 @@ const App: Component = () => {
 };
 
 render(() => <App />, document.getElementById("root") as HTMLElement);
-
-// inits crossani for use. Only needs running once
-// (note that subsequent runs don't cause any issues though)
-loadCrossani();
