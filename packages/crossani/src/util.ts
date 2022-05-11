@@ -5,8 +5,10 @@ import { ElementState, Transition } from "./types";
 /** Converts a CSSStyleDeclaration to a Record<string, string> */
 export function cloneStyles(styles: CSSStyleDeclaration) {
   // CSSStyleDeclaration is actually an array of props!
-  const props = Object.values(styles).filter((s) => s !== "transition");
-  const entries = props.map((p) => [p, styles[p as any]]);
+  // on blink, there is also the props as keys, so we filter these out
+  const entries = Object.entries(styles)
+    .filter(([k]) => !Object.is(parseInt(k), NaN)) // comparing NaN is never true moment
+    .map(([, p]) => [p, styles[p as any]]);
   return Object.fromEntries(entries);
 }
 
