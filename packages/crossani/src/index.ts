@@ -55,12 +55,14 @@ SVGElement.prototype.removeCrossAni = HTMLElement.prototype.removeCrossAni =
     stateStore.delete(this);
   };
 
-const origRemove = Element.prototype.remove;
+const orig = Element.prototype.remove;
 Element.prototype.remove = function () {
   stateStore.delete(this as HTMLElement | SVGElement);
-  origRemove.call(this);
+  orig.call(this);
 };
 
 export const unload = () => {
   for (const elem of stateStore.keys()) elem.removeCrossAni();
 };
+
+export { Transition, PartialTransition } from "./types";

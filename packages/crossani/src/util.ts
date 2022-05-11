@@ -1,5 +1,6 @@
 import { EASE } from "./generator";
 import { stateStore } from "./shared";
+import { ElementState, PartialTransition, Transition } from "./types";
 
 /** Converts a CSSStyleDeclaration to a Record<string, string> */
 export function cloneStyles(styles: CSSStyleDeclaration) {

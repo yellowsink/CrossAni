@@ -1,5 +1,5 @@
 /** Represents a transition that may run on an element at any given time */
-interface Transition {
+export interface Transition {
   /** A string map of CSS properties to their intended values */
   state: Record<string, string>;
   /** Number of milliseconds to transition for */
@@ -13,7 +13,7 @@ interface Transition {
 }
 
 /** A transition that may have missing properties */
-interface PartialTransition {
+export interface PartialTransition {
   state?: Record<string, string>;
   ms?: number;
   easing?: string;
@@ -22,7 +22,7 @@ interface PartialTransition {
 }
 
 /** @internal */
-interface ElementState {
+export interface ElementState {
   /** Stores the styles crossani is applying */
   orig: Record<string, string>;
   /** Inline styles present before crossani loaded */
@@ -33,11 +33,13 @@ interface ElementState {
   transitionPromises: [Transition, Promise<void>, () => void][];
 }
 
-declare interface Element {
-  /** A string map of transitions available on this element */
-  transitions?: Record<string, undefined | PartialTransition>;
-  /** Runs transitions defined in Element.transitions by name */
-  doTransition(name: PartialTransition | string): void;
-  /** Removes CrossAni from this element */
-  removeCrossAni(): void;
+declare global {
+  interface Element {
+    /** A string map of transitions available on this element */
+    transitions?: Record<string, undefined | PartialTransition>;
+    /** Runs transitions defined in Element.transitions by name */
+    doTransition(name: PartialTransition | string): void;
+    /** Removes CrossAni from this element */
+    removeCrossAni(): void;
+  }
 }

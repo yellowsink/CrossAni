@@ -1,3 +1,5 @@
+import { Transition } from "./types";
+
 export const EASE = {
   cubicBezier: (...points: number[]) =>
     `cubic-bezier(${points
