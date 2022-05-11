@@ -1,4 +1,4 @@
-import { Transition } from "./types";
+import { ElementState, Transition } from "./types";
 
 export const EASE = {
   cubicBezier: (...points: number[]) =>
@@ -43,11 +43,19 @@ export const JUMP: Jumps = {
 };
 
 export const generateTransition = (
-  prevState: Record<string, string>,
+  prevState: ElementState,
   transition: Transition
 ) =>
-  distinct([...Object.keys(transition.state), ...Object.keys(prevState)])
-    .map((p) => `${p} ${transition.ms}ms ${transition.easing}`)
+  distinct([
+    ...Object.keys(transition.state ?? {}),
+    ...Object.keys(prevState.curr),
+  ])
+    .map(
+      (p) =>
+        `${p} ${transition.ms ?? prevState.lastMs}ms ${
+          transition.easing ?? prevState.lastEase
+        }`
+    )
     .join(",");
 
 export const distinct = <T>(arr: T[]) => Array.from(new Set(arr));

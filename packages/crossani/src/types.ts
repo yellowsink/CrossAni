@@ -1,23 +1,14 @@
 /** Represents a transition that may run on an element at any given time */
 export interface Transition {
   /** A string map of CSS properties to their intended values */
-  state: Record<string, string>;
+  state?: Record<string, string>;
   /** Number of milliseconds to transition for */
-  ms: number;
+  ms?: number;
   /** An easing function to use - see {@link EASE} */
-  easing: string;
+  easing?: string;
   /** If true, remove all crossani styles first */
   reset?: boolean;
   /** Cut off & run all queued transitions instantly instead of waiting */
-  cutOff?: boolean;
-}
-
-/** A transition that may have missing properties */
-export interface PartialTransition {
-  state?: Record<string, string>;
-  ms?: number;
-  easing?: string;
-  reset?: boolean;
   cutOff?: boolean;
 }
 
@@ -31,14 +22,18 @@ export interface ElementState {
   queue: Transition[];
   /** Stores promises for transition completion */
   transitionPromises: [Transition, Promise<void>, () => void][];
+  /** Stores the previous ms value of the element */
+  lastMs: number;
+  /** Stores the previous ease value of the element */
+  lastEase: string;
 }
 
 declare global {
   interface Element {
     /** A string map of transitions available on this element */
-    transitions?: Record<string, undefined | PartialTransition>;
+    transitions?: Record<string, undefined | Transition>;
     /** Runs transitions defined in Element.transitions by name */
-    doTransition(name: PartialTransition | string): void;
+    doTransition(name: Transition | string): void;
     /** Removes CrossAni from this element */
     removeCrossAni(): void;
   }

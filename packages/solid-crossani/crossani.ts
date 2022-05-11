@@ -1,4 +1,4 @@
-import { PartialTransition } from "crossani";
+import { Transition } from "crossani";
 import { Accessor, createEffect, Setter } from "solid-js";
 
 export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
@@ -6,7 +6,7 @@ export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
   const trigger = Array.isArray(args) ? args[0] : args;
   const stateOut = Array.isArray(args) ? args[1] : undefined;
 
-  const queue = [] as (string | PartialTransition)[];
+  const queue = [] as (string | Transition)[];
 
   createEffect(() => {
     // @ts-expect-error el.transitions no exist wew
@@ -25,10 +25,10 @@ export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
 };
 
 type CrossAniArgs =
-  | Accessor<string | PartialTransition>
+  | Accessor<string | Transition>
   | [
-      triggerSignal: Accessor<string | PartialTransition>,
-      stateSignalOut: Setter<string | PartialTransition | undefined>
+      triggerSignal: Accessor<string | Transition>,
+      stateSignalOut: Setter<string | Transition | undefined>
     ];
 
 declare module "solid-js" {

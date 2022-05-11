@@ -1,6 +1,6 @@
 import { EASE } from "./generator";
 import { stateStore } from "./shared";
-import { ElementState, PartialTransition, Transition } from "./types";
+import { ElementState, Transition } from "./types";
 
 /** Converts a CSSStyleDeclaration to a Record<string, string> */
 export function cloneStyles(styles: CSSStyleDeclaration) {
@@ -11,15 +11,17 @@ export function cloneStyles(styles: CSSStyleDeclaration) {
 }
 
 /** Gets a store or inits if needed */
-export function getOrInitStore(elem: HTMLElement | SVGElement): ElementState {
+export function getOrInitStore(elem: HTMLElement | SVGElement) {
   const state = stateStore.get(elem);
   if (state) return state;
 
-  const newState = {
+  const newState: ElementState = {
     curr: {},
     orig: cloneStyles(elem.style),
     queue: [],
     transitionPromises: [],
+    lastEase: EASE.ease,
+    lastMs: 100,
   };
 
   sanitiseStyleObject(newState.orig);
@@ -110,14 +112,3 @@ export const whenTransitionAborts = (
 
   requestAnimationFrame(animateOnceStopped);
 };
-
-/** Sets defaults of a transition object */
-export const transitionDefaults = (trans: PartialTransition): Transition =>
-  Object.assign(
-    {
-      state: {},
-      easing: EASE.ease,
-      ms: 100,
-    } as Transition,
-    trans
-  );

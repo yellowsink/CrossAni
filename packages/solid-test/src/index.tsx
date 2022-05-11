@@ -7,7 +7,7 @@ import crossani from "solid-crossani";
 // minified away, stops TSC removing the import
 false && crossani;
 
-import { EASE, PartialTransition } from "crossani";
+import { EASE, Transition } from "crossani";
 
 const transitions = {
   default: {
@@ -51,12 +51,12 @@ const step4 = {
     transform: "rotate(170deg) translateX(50px) skewY(40deg)",
   },
   ms: 150,
-  easing: EASE.inOut,
+  easing: EASE.startSteps(2),
 };
 
 const App: Component = () => {
-  const [trigger, setTrigger] = createSignal<string | PartialTransition>("");
-  const [current, setCurrent] = createSignal<string | PartialTransition>();
+  const [trigger, setTrigger] = createSignal<string | Transition>("");
+  const [current, setCurrent] = createSignal<string | Transition>();
 
   function triggerAnimation() {
     setTrigger("step1");

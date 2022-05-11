@@ -8,7 +8,7 @@ function popFirst(elem: HTMLElement | SVGElement) {
   if (transition === undefined) return false;
 
   // update styles
-  if (transition.reset) state.curr = transition.state;
+  if (transition.reset) state.curr = transition.state ?? {};
   else Object.assign(state.curr, transition.state);
 
   // resolve
@@ -33,11 +33,14 @@ export function startAnimating(elem: HTMLElement | SVGElement) {
 
   // generates the style transition: property string
   // needs to be run before updating state.curr or some values may not work correctly
-  const transitionString = generateTransition(state.curr, transition);
+  const transitionString = generateTransition(state, transition);
 
   // update styles
   if (transition.reset) state.curr = { ...transition.state };
   else Object.assign(state.curr, transition.state);
+
+  state.lastMs = transition.ms ?? state.lastMs;
+  state.lastEase = transition.easing ?? state.lastEase;
 
   // run transition
   elem.style.transition = transitionString;
@@ -53,6 +56,6 @@ export function startAnimating(elem: HTMLElement | SVGElement) {
       startAnimating(elem);
     },
     // give the transition 20ms of room to end early
-    transition.ms + 20
+    state.lastMs + 20
   );
 }

@@ -4,7 +4,6 @@ import {
   getOrInitStore,
   queueTransition,
   sanitiseTransitions,
-  transitionDefaults,
   updateStyles,
   whenTransitionAborts,
 } from "./util";
@@ -16,17 +15,15 @@ SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
     // just to be sure the user isnt breaking things
     sanitiseTransitions(this);
 
-    const rawTrans =
+    const trans =
       typeof transOrName === "string"
         ? this.transitions?.[transOrName]
         : transOrName;
 
-    if (!rawTrans)
+    if (!trans)
       throw new Error(
         `${this.tagName} #${this.id} has no transition "${transOrName}"`
       );
-
-    const trans = transitionDefaults(rawTrans);
 
     if (trans.cutOff) {
       abortAnimation(this);
@@ -65,4 +62,4 @@ export const unload = () => {
   for (const elem of stateStore.keys()) elem.removeCrossAni();
 };
 
-export { Transition, PartialTransition } from "./types";
+export { Transition } from "./types";
