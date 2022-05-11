@@ -16,7 +16,7 @@ SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
     sanitiseTransitions(this);
 
     const trans =
-      typeof transOrName === "string"
+      typeof transOrName!== "object"
         ? this.transitions?.[transOrName]
         : transOrName;
 
