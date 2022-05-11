@@ -72,8 +72,8 @@ const App: Component = () => {
         <button onClick={() => setTrigger("default")}>reset</button>
 
         {typeof current() === "string" ? (
-          current()
-        ) : current === undefined ? (
+          <>{current()}</>
+        ) : current() === undefined ? (
           <em>Not currently animating</em>
         ) : (
           <em>Custom animation</em>
