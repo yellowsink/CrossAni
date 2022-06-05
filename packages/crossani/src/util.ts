@@ -5,11 +5,18 @@ import { ElementState, Transition } from "./types";
 /** Converts a CSSStyleDeclaration to a Record<string, string> */
 export function cloneStyles(styles: CSSStyleDeclaration) {
   // CSSStyleDeclaration is actually an array of props!
-  // on blink, there is also the props as keys, so we filter these out
-  const entries = Object.entries(styles)
-    .filter(([k]) => !Object.is(parseInt(k), NaN)) // comparing NaN is never true moment
-    .map(([, p]) => [p, styles[p as any]]);
-  return Object.fromEntries(entries);
+  // there is also the props as keys, so we stop on these
+
+  const cloned: Record<string, string> = {};
+
+  for (const k in styles) {
+    if (Object.is(parseInt(k), NaN)) break;
+    const p = styles[k];
+    // @ts-expect-error ffs
+    cloned[p] = styles[p];
+  }
+
+  return cloned;
 }
 
 /** Gets a store or inits if needed */

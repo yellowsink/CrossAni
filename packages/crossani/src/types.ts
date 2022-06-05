@@ -32,8 +32,10 @@ declare global {
   interface Element {
     /** A string map of transitions available on this element */
     transitions?: Record<string, undefined | Transition>;
+
     /** Runs transitions defined in Element.transitions by name */
     doTransition(name: Transition | string): void;
+
     /** Removes CrossAni from this element */
     removeCrossAni(): void;
   }
