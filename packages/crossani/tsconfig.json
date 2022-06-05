@@ -1,12 +1,12 @@
 {
-    "include": ["src/**/*.ts"],
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "moduleResolution": "node",
-        "strict": true,
-        "declaration": true,
-        "outDir": "dist/esm",
-        "declarationDir": "dist/types"
-    }
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "outDir": "dist/esm",
+    "declarationDir": "dist/types"
+  }
 }

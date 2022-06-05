@@ -16,7 +16,7 @@ SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
     sanitiseTransitions(this);
 
     const trans =
-      typeof transOrName!== "object"
+      typeof transOrName !== "object"
         ? this.transitions?.[transOrName]
         : transOrName;
 
@@ -62,4 +62,4 @@ export const unload = () => {
   for (const elem of stateStore.keys()) elem.removeCrossAni();
 };
 
-export { Transition } from "./types";
+export type { Transition } from "./types";

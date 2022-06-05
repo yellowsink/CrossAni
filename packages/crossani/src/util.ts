@@ -75,31 +75,6 @@ export function sanitiseTransitions(elem: HTMLElement | SVGElement) {
   }
 }
 
-/** listens for transitionend, but with a timeout */
-export const eventOrTimeout = (
-  elem: HTMLElement | SVGElement,
-  resolve: () => void,
-  timeout: number
-) =>
-  void setTimeout(() => {
-    let cancel = false;
-
-    const handler = () => {
-      if (cancel) return;
-      resolve();
-      cancel = true;
-    };
-
-    elem.addEventListener("transitionend", handler, { once: true });
-
-    setTimeout(() => {
-      if (cancel) return;
-      cancel = true;
-      elem.removeEventListener("transitionend", handler);
-      resolve();
-    }, timeout);
-  });
-
 /** Waits for an element to finish transitioning before running callback, always run abortAnimation first */
 export const whenTransitionAborts = (
   elem: HTMLElement | SVGElement,

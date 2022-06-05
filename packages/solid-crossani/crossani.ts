@@ -10,7 +10,7 @@ export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
 
   createEffect(() => {
     // @ts-expect-error el.transitions no exist wew
-    if (typeof trigger()!== "object" && !el.transitions[trigger()]) return;
+    if (typeof trigger() !== "object" && !el.transitions[trigger()]) return;
 
     if (queue.length === 0) stateOut?.(() => trigger());
 

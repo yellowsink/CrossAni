@@ -71,7 +71,7 @@ const App: Component = () => {
         <button onClick={triggerAnimation}>trigger</button>
         <button onClick={() => setTrigger("default")}>reset</button>
 
-        {typeof current()!== "object" ? (
+        {typeof current() !== "object" ? (
           <>{current()}</>
         ) : current() === undefined ? (
           <em>Not currently animating</em>

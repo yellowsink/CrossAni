@@ -1,5 +1,5 @@
 import { generateTransition } from "./generator";
-import { eventOrTimeout, getOrInitStore, updateStyles } from "./util";
+import { getOrInitStore, updateStyles } from "./util";
 
 /** Pops the first transition off the queue instantly */
 function popFirst(elem: HTMLElement | SVGElement) {
@@ -46,16 +46,10 @@ export function startAnimating(elem: HTMLElement | SVGElement) {
   elem.style.transition = transitionString;
   updateStyles(elem);
 
-  // listen for finish
-  eventOrTimeout(
-    elem,
-    () => {
-      state.queue.shift();
-      state.transitionPromises.shift()?.[2]();
+  setTimeout(() => {
+    state.queue.shift();
+    state.transitionPromises.shift()?.[2]();
 
-      startAnimating(elem);
-    },
-    // give the transition 20ms of room to end early
-    state.lastMs + 20
-  );
+    startAnimating(elem);
+  }, state.lastMs);
 }
