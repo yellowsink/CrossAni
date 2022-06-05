@@ -1,5 +1,6 @@
 import { generateTransition } from "./generator";
 import { getOrInitStore, updateStyles } from "./util";
+import {enqueue} from "./queue";
 
 /** Pops the first transition off the queue instantly */
 function popFirst(elem: HTMLElement | SVGElement) {
@@ -46,7 +47,7 @@ export function startAnimating(elem: HTMLElement | SVGElement) {
   elem.style.transition = transitionString;
   updateStyles(elem);
 
-  setTimeout(() => {
+  enqueue(() => {
     state.queue.shift();
     state.transitionPromises.shift()?.[2]();
 
