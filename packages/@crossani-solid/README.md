@@ -4,11 +4,11 @@ Bringing the awesome CrossAni transition and animation framework to SolidJS.
 
 ## Installation
 
-Install solid-crossani and crossani:
+Install @crossani/solid and crossani:
 
-- `npm i crossani solid-crossani`
-- `pnpm i crossani solid-crossani`
-- `yarn add crossani solid-crossani`
+- `npm i crossani @crossani/solid`
+- `pnpm i crossani @crossani/solid`
+- `yarn add crossani @crossani/solid`
 
 That's it.
 

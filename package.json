@@ -6,14 +6,18 @@
     "build:crossani": "cd packages/crossani && pnpm build",
     "build:solid": "cd packages/@crossani-solid && pnpm build",
     "build:test:solid": "cd packages/solid-test && pnpm build",
-    "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid"
+    "build:react": "cd packages/@crossani-react && pnpm build",
+    "build:test:react": "cd packages/react-test && pnpm build",
+    "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid && pnpm build:react && pnpm build:test:react"
   },
   "packageManager": "pnpm@7.0.0",
   "pnpm": {
     "overrides": {
       "crossani": "workspace:*",
       "@crossani/solid": "workspace:*",
-      "solid-test": "workspace:*"
+      "@crossani/react": "workspace:*",
+      "solid-test": "workspace:*",
+      "react-test": "workspace:*"
     }
   }
 }
