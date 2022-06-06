@@ -3,7 +3,7 @@ import { render } from "solid-js/web";
 import { Component, createSignal } from "solid-js";
 
 // use:crossani
-import crossani from "solid-crossani";
+import crossani from "@crossani/solid";
 // minified away, stops TSC removing the import
 false && crossani;
 

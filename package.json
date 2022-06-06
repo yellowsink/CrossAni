@@ -12,7 +12,7 @@
   "pnpm": {
     "overrides": {
       "crossani": "workspace:*",
-      "solid-crossani": "workspace:*",
+      "@crossani/solid": "workspace:*",
       "solid-test": "workspace:*"
     }
   }
