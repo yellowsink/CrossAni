@@ -18,7 +18,7 @@ That's it.
 
 ```jsx
 import { EASE } from "crossani";
-import crossani from "solid-crossani";
+import crossani from "@crossani/solid";
 // !!!! this may be required to stop vite and/or typescript
 // !!!! removing the import even though you do need it
 false && crossani; // it will be minified out of your dist.

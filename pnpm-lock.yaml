@@ -10,15 +10,7 @@ importers:
   .:
     specifiers: {}
 
-  packages/crossani:
-    specifiers:
-      esbuild: ^0.14.38
-      typescript: ^4.6.4
-    devDependencies:
-      esbuild: 0.14.38
-      typescript: 4.6.4
-
-  packages/solid-crossani:
+  packages/@crossani-solid:
     specifiers:
       crossani: workspace:*
       esbuild: ^0.14.38
@@ -31,6 +23,14 @@ importers:
       solid-js: 1.3.17
       typescript: 4.6.4
 
+  packages/crossani:
+    specifiers:
+      esbuild: ^0.14.38
+      typescript: ^4.6.4
+    devDependencies:
+      esbuild: 0.14.38
+      typescript: 4.6.4
+
   packages/solid-test:
     specifiers:
       '@crossani/solid': workspace:*
@@ -40,7 +40,7 @@ importers:
       vite: ^2.9.9
       vite-plugin-solid: ^2.2.6
     dependencies:
-      '@crossani/solid': link:../solid-crossani
+      '@crossani/solid': link:../@crossani-solid
       crossani: link:../crossani
       solid-js: 1.3.17
     devDependencies:

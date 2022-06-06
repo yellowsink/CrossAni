@@ -4,7 +4,7 @@
   "scripts": {
     "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist",
     "build:crossani": "cd packages/crossani && pnpm build",
-    "build:solid": "cd packages/solid-crossani && pnpm build",
+    "build:solid": "cd packages/@crossani-solid && pnpm build",
     "build:test:solid": "cd packages/solid-test && pnpm build",
     "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid"
   },
