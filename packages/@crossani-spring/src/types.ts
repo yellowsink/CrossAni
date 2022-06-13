@@ -4,6 +4,6 @@ export interface SpringCfg {
     mass: number // m
     stiffness: number // k
     damping: number // c
-    precision: number
-    restVelocity?: number
+    samples: number
+    restThres: number
 }

@@ -76,20 +76,24 @@ function getPoints(
   end: number,
   //v0: number,
   cfg: SpringCfg
-): [number, number][] {
-  const points: [number, number][] = [];
-
+) {
+  const points: [number, number, number][] = [];
   const sFn = getSamplierFn(end, 0, 0, start, cfg);
 
-  for (let i = start; 1; i += cfg.precision) {
+  for (let i = start; 1; i += cfg.samples) {
     const [x, v] = sFn(i);
-    points.push([i, x]);
+    points.push([i, x, v]);
 
-    if (x !== start && Math.abs(v) <= (cfg.restVelocity ?? cfg.precision)) {
-      points[points.length - 1][0] = end;
-      break;
-    }
+    if (Math.abs(end - x) >= cfg.restThres || Math.abs(v) >= cfg.restThres)
+      continue;
+
+    points[points.length - 1][1] = end;
+    break;
   }
 
   return points;
+}
+
+function getSegments(start: number, end: number) {
+
 }
