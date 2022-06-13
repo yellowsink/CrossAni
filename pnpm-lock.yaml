@@ -4,6 +4,7 @@ overrides:
   crossani: workspace:*
   '@crossani/solid': workspace:*
   '@crossani/react': workspace:*
+  '@crossani/spring': workspace:*
   solid-test: workspace:*
   react-test: workspace:*
 
@@ -42,7 +43,7 @@ importers:
 
   packages/@crossani-spring:
     specifiers:
-      crossani: workspace:^1.2.0
+      crossani: workspace:*
       esbuild: ^0.14.43
       typescript: ^4.7.3
     dependencies:
