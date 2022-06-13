@@ -6,7 +6,6 @@ const { sqrt, exp, sin, cos, abs } = Math;
 // shoutouts to
 // https://github.com/pomber/springs/blob/master/src/spring.js
 
-// simplified from the linked file to force x0 to -1 and v0 to 0
 // returns [value, velocity]
 function getSampleFn(
   cfg: SpringCfg,
@@ -71,29 +70,57 @@ function getSamplierFn(
   };
 }
 
-function getPoints(
-  start: number,
-  end: number,
-  //v0: number,
-  cfg: SpringCfg
-) {
-  const points: [number, number, number][] = [];
-  const sFn = getSamplierFn(end, 0, 0, start, cfg);
+function getPoints(magnitude = 1, cfg: SpringCfg) {
+  const points: [number, number][] = [];
+  const sFn = getSamplierFn(magnitude, 0, 0, 0, cfg);
 
-  for (let i = start; 1; i += cfg.samples) {
+  for (let i = 0; 1; i += cfg.samples) {
     const [x, v] = sFn(i);
-    points.push([i, x, v]);
+    points.push([i, x]);
 
-    if (Math.abs(end - x) >= cfg.restThres || Math.abs(v) >= cfg.restThres)
+    if (
+      Math.abs(magnitude - x) >= cfg.restThres ||
+      Math.abs(v) >= cfg.restThres
+    )
       continue;
 
-    points[points.length - 1][1] = end;
+    points[points.length - 1][1] = magnitude;
     break;
   }
 
   return points;
 }
 
-function getSegments(start: number, end: number) {
+ export default function getSegments(start: number, end: number, cfg: SpringCfg) {
+   const points = getPoints(end - start, cfg);
+ 
+  // [len, destVal]
+  const segments: [number, number][] = [];
 
+  let lastDifferenceSign: boolean | undefined = undefined;
+  let lastSegI = 0;
+
+  for (let i = 1; i < points.length; i++) {
+    if (lastDifferenceSign === undefined) {
+      lastDifferenceSign = points[i][1] - points[i - 1][1] >= 0;
+      continue;
+    }
+
+    const difference = points[i][1] - points[i - 1][1];
+    // check if signs are different
+    if (difference >= 0 !== lastDifferenceSign) {
+      const lastI = lastSegI ?? 0;
+
+      const pointsLen = i - lastI;
+      const timeLen = 1000 * pointsLen / cfg.samples;
+
+      segments.push([timeLen, (points[i][1]) + start]);
+
+      lastSegI = i;
+    }
+
+    lastDifferenceSign = difference >= 0;
+  }
+
+  return segments;
 }
