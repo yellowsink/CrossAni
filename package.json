@@ -8,7 +8,8 @@
     "build:test:solid": "cd packages/solid-test && pnpm build",
     "build:react": "cd packages/@crossani-react && pnpm build",
     "build:test:react": "cd packages/react-test && pnpm build",
-    "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid && pnpm build:react && pnpm build:test:react"
+    "build:spring": "cd packages/@crossani-spring && pnpm build",
+    "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid && pnpm build:react && pnpm build:test:react && pnpm build:spring"
   },
   "packageManager": "pnpm@7.0.0",
   "pnpm": {
@@ -16,6 +17,7 @@
       "crossani": "workspace:*",
       "@crossani/solid": "workspace:*",
       "@crossani/react": "workspace:*",
+      "@crossani/spring": "workspace:*",
       "solid-test": "workspace:*",
       "react-test": "workspace:*"
     }

@@ -40,6 +40,17 @@ importers:
       solid-js: 1.4.4
       typescript: 4.7.3
 
+  packages/@crossani-spring:
+    specifiers:
+      crossani: workspace:^1.2.0
+      esbuild: ^0.14.43
+      typescript: ^4.7.3
+    dependencies:
+      crossani: link:../crossani
+    devDependencies:
+      esbuild: 0.14.43
+      typescript: 4.7.3
+
   packages/crossani:
     specifiers:
       esbuild: ^0.14.43
