@@ -52,5 +52,5 @@ export function startAnimating(elem: HTMLElement | SVGElement) {
     state.transitionPromises.shift()?.[2]();
 
     startAnimating(elem);
-  }, state.lastMs);
+  }, state.lastMs + 1); // lmao
 }
