@@ -11,7 +11,7 @@ import {
 export { EASE, JUMP } from "./generator";
 
 SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
-  function (transOrName): Promise<void> {
+  function (transOrName) {
     // just to be sure the user isnt breaking things
     sanitiseTransitions(this);
 
@@ -51,12 +51,6 @@ SVGElement.prototype.removeCrossAni = HTMLElement.prototype.removeCrossAni =
     updateStyles(this);
     stateStore.delete(this);
   };
-
-const orig = Element.prototype.remove;
-Element.prototype.remove = function () {
-  stateStore.delete(this as HTMLElement | SVGElement);
-  orig.call(this);
-};
 
 export const unload = () => {
   for (const elem of stateStore.keys()) elem.removeCrossAni();

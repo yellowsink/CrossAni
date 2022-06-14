@@ -6,17 +6,18 @@ const box = document.getElementById("box");
 let isDragging = false;
 let boxPos = [200, 200];
 
-const calcPos = (curP, boxP, boxS) => Math.max(0, curP - boxP - boxS / 2);
+const calcPos = (curP, boxS) => Math.max(0, curP - boxS / 2);
 
 window.addEventListener("mousemove", (ev) => {
+  if (!isDragging) return;
+
   boxPos = [
-    calcPos(ev.clientX, box.offsetLeft, box.clientWidth),
-    calcPos(ev.clientY, box.offsetTop, box.clientHeight),
+    calcPos(ev.clientX, box.clientWidth),
+    calcPos(ev.clientY, box.clientHeight),
   ];
-  if (isDragging) {
-    box.style.left = boxPos[0] + "px";
-    box.style.top = boxPos[1] + "px";
-  }
+
+  box.style.left = boxPos[0] + "px";
+  box.style.top = boxPos[1] + "px";
 });
 
 box.addEventListener("mousedown", () => {
@@ -28,5 +29,5 @@ box.addEventListener("mousedown", () => {
 box.addEventListener("mouseup", () => {
   isDragging = false;
   box.doSpring(boxPos[0], 200, "left", "px");
-  box.doSpring(boxPos[1], 200, "top", "px");
+  //box.doSpring(boxPos[1], 200, "top", "px");
 });

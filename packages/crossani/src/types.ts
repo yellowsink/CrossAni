@@ -10,6 +10,8 @@ export interface Transition {
   reset?: boolean;
   /** Cut off & run all queued transitions instantly instead of waiting */
   cutOff?: boolean;
+  /** Don't bother with the queue lol */
+  untracked?: boolean;
 }
 
 /** @internal */
@@ -34,7 +36,7 @@ declare global {
     transitions?: Record<string, undefined | Transition>;
 
     /** Runs transitions defined in Element.transitions by name */
-    doTransition(name: Transition | string): void;
+    doTransition(name: Transition | string): Promise<void>;
 
     /** Removes CrossAni from this element */
     removeCrossAni(): void;
