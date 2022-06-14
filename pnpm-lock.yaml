@@ -98,6 +98,15 @@ importers:
       vite: 2.9.12
       vite-plugin-solid: 2.2.6
 
+  packages/spring-test:
+    specifiers:
+      '@crossani/spring': workspace:*
+      vite: ^2.9.9
+    dependencies:
+      '@crossani/spring': link:../@crossani-spring
+    devDependencies:
+      vite: 2.9.12
+
 packages:
 
   /@ampproject/remapping/2.2.0:

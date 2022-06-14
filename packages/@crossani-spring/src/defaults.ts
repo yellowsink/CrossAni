@@ -1,10 +1,10 @@
 import { PartSpr, SpringCfg } from "./types";
 
 export default (pCfg: PartSpr): SpringCfg => ({
-  mass: 2,
+  mass: 1,
+  damping: 4,
+  stiffness: 40,
   samples: 50,
-  stiffness: 50,
-  damping: 3,
-  restThres: 0.001,
+  restThres: 0.1,
   ...pCfg,
 });
