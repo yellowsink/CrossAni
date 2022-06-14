@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "A silky smooth spring animation library",
     "scripts": {
-        "build": "tsc && esbuild src/index.ts --format=cjs --bundle --outfile=dist/cjs.js"
+        "prepublish": "tsc && esbuild src/index.ts --format=cjs --bundle --outfile=dist/cjs.js"
     },
     "author": "Cain Atkinson",
     "license": "MIT",

@@ -6,7 +6,7 @@
   "module": "dist/crossani.js",
   "types": "dist/crossani.d.ts",
   "scripts": {
-    "build": "tsc && esbuild crossani.ts --format=cjs --outfile=dist/cjs.js"
+    "prepublish": "tsc && esbuild crossani.ts --format=cjs --outfile=dist/cjs.js"
   },
   "author": "Cain Atkinson",
   "license": "MIT",

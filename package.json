@@ -3,13 +3,11 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist",
-    "build:crossani": "cd packages/crossani && pnpm build",
-    "build:solid": "cd packages/@crossani-solid && pnpm build",
-    "build:test:solid": "cd packages/solid-test && pnpm build",
-    "build:react": "cd packages/@crossani-react && pnpm build",
-    "build:test:react": "cd packages/react-test && pnpm build",
-    "build:spring": "cd packages/@crossani-spring && pnpm build",
-    "prepublish": "pnpm build:crossani && pnpm build:solid && pnpm build:test:solid && pnpm build:react && pnpm build:test:react && pnpm build:spring"
+    "build:crossani": "cd packages/crossani && pnpm prepublish",
+    "build:solid": "cd packages/@crossani-solid && pnpm prepublish",
+    "build:react": "cd packages/@crossani-react && pnpm prepublish",
+    "build:spring": "cd packages/@crossani-spring && pnpm prepublish",
+    "build": "pnpm build:crossani && pnpm build:solid && pnpm build:react && pnpm build:spring"
   },
   "packageManager": "pnpm@7.0.0",
   "pnpm": {
@@ -17,9 +15,7 @@
       "crossani": "workspace:*",
       "@crossani/solid": "workspace:*",
       "@crossani/react": "workspace:*",
-      "@crossani/spring": "workspace:*",
-      "solid-test": "workspace:*",
-      "react-test": "workspace:*"
+      "@crossani/spring": "workspace:*"
     }
   }
 }

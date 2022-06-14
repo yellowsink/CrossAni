@@ -5,8 +5,6 @@ overrides:
   '@crossani/solid': workspace:*
   '@crossani/react': workspace:*
   '@crossani/spring': workspace:*
-  solid-test: workspace:*
-  react-test: workspace:*
 
 importers:
 

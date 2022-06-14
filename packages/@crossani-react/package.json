@@ -6,7 +6,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && esbuild index.ts --format=cjs --outfile=dist/cjs.js"
+    "prepublish": "tsc && esbuild index.ts --format=cjs --outfile=dist/cjs.js"
   },
   "author": "Cain Atkinson",
   "license": "MIT",
