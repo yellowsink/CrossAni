@@ -29,6 +29,6 @@ box.addEventListener("mousedown", () => {
 });
 box.addEventListener("mouseup", () => {
   isDragging = false;
-  box.doSpring(boxPos[0], 200, "left", "px");
-  box.doSpring(boxPos[1], 200, "top", "px");
+  box.doSpring(boxPos[0], 200, "left", "px", { damping: .5 });
+  box.doSpring(boxPos[1], 200, "top",  "px", { damping: .5 });
 });

@@ -70,57 +70,57 @@ function getSamplierFn(
   };
 }
 
-function getPoints(magnitude = 1, cfg: SpringCfg) {
-  const points: [number, number][] = [];
+function* getPoints(magnitude = 1, cfg: SpringCfg): Generator<[number, number]> {
   const sFn = getSamplierFn(magnitude, 0, 0, 0, cfg);
 
   for (let i = 0; 1; i += cfg.samples) {
     const [x, v] = sFn(i);
-    points.push([i, x]);
 
     if (
-      Math.abs(magnitude - x) >= cfg.restThres ||
-      Math.abs(v) >= cfg.restThres
-    )
-      continue;
+      Math.abs(magnitude - x) <= cfg.restThres &&
+      Math.abs(v) <= cfg.restThres
+    ) {
+      yield [i, 1];
+      return;
+    }
 
-    points[points.length - 1][1] = magnitude;
-    break;
+    yield [i, x];
   }
-
-  return points;
 }
 
- export default function getSegments(start: number, end: number, cfg: SpringCfg) {
-   const points = getPoints(end - start, cfg);
- 
-  // [len, destVal]
-  const segments: [number, number][] = [];
+export default function* getSegments(
+  start: number,
+  end: number,
+  cfg: SpringCfg
+): Generator<[number, number]> {
+  const points = getPoints(end - start, cfg);
 
   let lastDifferenceSign: boolean | undefined = undefined;
-  let lastSegI = 0;
+  let lastPoint = points.next().value;
 
-  for (let i = 1; i < points.length; i++) {
+  if (!lastPoint) return [];
+
+  let pointsLen = 0;
+  for (const point of points) {
+    pointsLen++;
+
+    const difference = point[1] - lastPoint[1];
+
     if (lastDifferenceSign === undefined) {
-      lastDifferenceSign = points[i][1] - points[i - 1][1] >= 0;
+      lastDifferenceSign = difference >= 0;
       continue;
     }
 
-    const difference = points[i][1] - points[i - 1][1];
     // check if signs are different
     if (difference >= 0 !== lastDifferenceSign) {
-      const lastI = lastSegI ?? 0;
+      const timeLen = (1000 * pointsLen) / cfg.samples;
 
-      const pointsLen = i - lastI;
-      const timeLen = 1000 * pointsLen / cfg.samples;
+      yield [timeLen, point[1] + start];
 
-      segments.push([timeLen, (points[i][1]) + start]);
-
-      lastSegI = i;
+      pointsLen = 0;
     }
 
     lastDifferenceSign = difference >= 0;
+    lastPoint = point;
   }
-
-  return segments;
 }
