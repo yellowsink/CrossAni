@@ -10,13 +10,13 @@ A traditional animation library works by updating a property of an element repea
 
 This is required for things like SVG elements, and is also much much easier for more complex animations such as springs.
 
-However: this can have massive performance repurcussions.
+However: this can have performance repurcussions.
 
 CrossAni uses CSS transitions to fix this problem, using the browser's built in animating tools.
 
 **CrossAni effectively guarantees 60fps animations every time**, or whatever refresh rate you run at.
 
-The main other way to achieve this is the Web Animations API (WAAPI).
+The main other way to achieve this is the Web Animations API (WAAPI) like Motion One does.
 
 ### Size Matters
 
@@ -55,15 +55,31 @@ You can then modify the styles, and call `doTransition` as usual, re-initing tha
 
 ### (1) Assign some states to your element
 
-Any element that should be animated needs a `transitions` property with a key-value record of strings to state objects.
+Any element that should be animated can have a `transitions` property with a key-value record of strings to transition objects.
 
-A state object contains the following things:
+You may also pass transition objects directly to doTransition,
+which is helpful for programmatically generated animations for example.
+
+A transition object contains the following things:
 
 - `ms`: the time it should take to finish transitioning to that state
 - `easing`: An easing function to use, all exported on the `EASE` object.
 - `state`: An object containing the CSS values to set on the element this state.
-- `cutOff`: (OPTIONAL) see behaviour above
-- `reset`: (OPTIONAL) see behaviour above
+- `cutOff`: see behaviour above
+- `reset`: see behaviour above
+- `detached`: if true, this transition is completely independent of the global queue and runs instantly.
+
+Transition objects allow all properties to be undefined, and will provide useful defaults:
+```js
+({
+  state: {},
+  ms: 100, // falls through from past transition, this value is for the first transition
+  easing: EASE.ease, // see above comment
+  cutOff: false,
+  reset: false,
+  detached: false
+})
+```
 
 An example setup would be as follows:
 
@@ -72,7 +88,6 @@ const box = document.getElementById("box");
 
 box.transitions = {
   default: {
-    state: {},
     ms: 500,
     easing: EASE.inOut,
     reset: true,
@@ -81,8 +96,7 @@ box.transitions = {
 
   hover: {
     state: { transform: "scale(1.1)" },
-    ms: 250,
-    easing: EASE.inOut,
+    ms: 250
   },
 };
 ```
@@ -109,7 +123,7 @@ Promises make complexity into simplicity
 ```js
 async function introAnimation() {
   box.doTransition("moveright");
-  box.doTransition("slowgrop");
+  box.doTransition("slowgrow");
   await box.doTransition("fadetextout");
   box.innerText = "the text is now different";
   box.doTransition("fadetextin");
@@ -122,8 +136,6 @@ async function introAnimation() {
 `opacity`, `transform`, `filter`, as these are things that can be done in the compositor stage.
 
 `background-color` and `clip-path` may be accelerated in Chrome too, but ensure to test in all browsers for optimum speed.
-
-Either way, you're doing much better with CrossAni than JS animations, even if you're not getting the most blazing speed!
 
 Non `transform` _movements_ are slower as, although the browser is running the animation,
 repaints and often reflows are necessary, which are expensive.
@@ -140,14 +152,14 @@ Most benefits Motion One list also apply here:
 - not affected by JS execution freezing
 - high accuracy interpolation from the browser
 
-But also, SVG `d` attributes still cannot be animated with CSS transitions.
+However, CrossAni does not support some SVG attributes such as `d`.
 
 ### Bundle size
 
 All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as the cdn.
 
 | Pkg      | Raw     | Gzip    | Brotli  |
-| -------- | ------- | ------- | ------- |
+|----------|---------|---------|---------|
 | crossani | 2.5kb   | 1.12kb  | 1.05kb  |
 | motion   | 15.07kb | 6.34kb  | 6.17kb  |
 | animejs  | 17.59kb | 7.19kb  | 6.99kb  |
@@ -155,50 +167,50 @@ All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as th
 
 ### Features
 
-|              |            Feature |  CrossAni   |  Motion   |   AnimeJS    | Greensock |
-| ------------ | -----------------: | :---------: | :-------: | :----------: | :-------: |
-| **Values**   |    CSS `transform` |     ✅      |    ✅     |      ❌      |    ✅     |
-|              |      Named colours |     ✅      |    ✅     |      ❌      |  Partial  |
-|              |   Colour type conv |     ✅      |    ✅     | Wrong interp |    ✅     |
-|              |   To/from CSS vars |     ✅      |    ✅     |      ❌      |    ❌     |
-|              |  To/from CSS funcs |     ✅      |    ✅     |      ❌      |    ❌     |
-|              |   Animate CSS vars |     ❌      |    ✅     |      ❌      |    ❌     |
-|              |   Simple keyframes |  ❌ Soon?   |    ✅     |      ✅      |    ❌     |
-|              | Wildcard keyframes |     N/A     |    ✅     |      ❌      |    ❌     |
-|              |    Relative values |     ❌      |    ✅     |      ❌      |    ❌     |
-| **Output**   |     Element styles |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |      Element attrs |     ❌      |    ❌     |      ✅      |    ✅     |
-|              |  Custom animations |     ❌      |    ✅     |      ✅      |    ✅     |
-| **Options**  |           Duration |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |          Direction |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |             Repeat |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |              Delay |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |          End delay |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |       Repeat delay |     ❌      |    ✅     |      ❌      |    ✅     |
-| **Stagger**  |            Stagger |     ❌      | ✅ +.1kb  |      ✅      |    ✅     |
-| **Timeline** |           Timeline |     ❌      | ✅ +.6kb  |      ✅      |    ✅     |
-| **Controls** |               Play |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |              Pause |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |             Finish |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |            Reverse |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |               Stop |     ❌      |    ✅     |      ✅      |    ✅     |
-|              |      Playback rate |     ❌      |    ✅     |      ✅      |    ✅     |
-| **Easing**   |             Linear |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |       Cubic bezier |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |              Steps |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |  Spring simulation |     ❌      |  ✅ +1kb  |      ❌      |    ❌     |
-|              |              Glide |     ❌      | ✅ +1.3kb |      ❌      | ✅ $99/yr |
-|              |      Spring easing |     ❌      |    ❌     |      ✅      |    ❌     |
-|              |     Custom easings |     ❌      |    ❌     |      ✅      |    ✅     |
-| **Events**   |           Complete |     ✅      |    ✅     |      ✅      |    ✅     |
-|              |             Cancel | Fires above |    ✅     |      ✅      |    ✅     |
-|              |              Start |     ❌      |    ❌     |      ✅      |    ✅     |
-|              |             Update |     ❌      |    ❌     |      ✅      |    ✅     |
-|              |             Repeat |     N/A     |    ❌     |      ✅      |    ✅     |
-| **Path**     |        Motion path |     ❌      |    ✅     |      ✅      | ✅ +9.5kb |
-|              |      Path morphing |     ❌      |  ✅ lib   | ✅ = #points | ✅ $99/yr |
-|              |       Path drawing |     ✅      |    ✅     |      ✅      | ✅ $99/yr |
-| **Other**    |            license |     MIT     |    MIT    |     MIT      |  Custom   |
-|              |   GPU acceleration |     ✅      |    ✅     |      ❌      |    ❌     |
-|              |          IE11 (ew) |     ❌      |    ❌     |      ✅      |    ✅     |
-|              |         Frameworks |     ✅      |    ✅     |      ❌      |    ❌     |
+|              |            Feature | CrossAni |  Motion  |   AnimeJS    | Greensock |
+|--------------|-------------------:|:--------:|:--------:|:------------:|:---------:|
+| **Values**   |    CSS `transform` |    ✅     |    ✅     |      ❌       |     ✅     |
+|              |      Named colours |    ✅     |    ✅     |      ❌       |  Partial  |
+|              |   Colour type conv |    ✅     |    ✅     | Wrong interp |     ✅     |
+|              |   To/from CSS vars |    ✅     |    ✅     |      ❌       |     ❌     |
+|              |  To/from CSS funcs |    ✅     |    ✅     |      ❌       |     ❌     |
+|              |   Animate CSS vars |    ❌     |    ✅     |      ❌       |     ❌     |
+|              |   Simple keyframes | ❌ Soon?  |    ✅     |      ✅       |     ❌     |
+|              | Wildcard keyframes |   N/A    |    ✅     |      ❌       |     ❌     |
+|              |    Relative values |    ❌     |    ✅     |      ❌       |     ❌     |
+| **Output**   |     Element styles |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |      Element attrs |    ❌     |    ❌     |      ✅       |     ✅     |
+|              |  Custom animations |    ❌     |    ✅     |      ✅       |     ✅     |
+| **Options**  |           Duration |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |          Direction |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |             Repeat |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |              Delay |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |          End delay |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |       Repeat delay |    ❌     |    ✅     |      ❌       |     ✅     |
+| **Stagger**  |            Stagger |    ❌     | ✅ +.1kb  |      ✅       |     ✅     |
+| **Timeline** |           Timeline |    ❌     | ✅ +.6kb  |      ✅       |     ✅     |
+| **Controls** |               Play |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |              Pause |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |             Finish |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |            Reverse |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |               Stop |    ❌     |    ✅     |      ✅       |     ✅     |
+|              |      Playback rate |    ❌     |    ✅     |      ✅       |     ✅     |
+| **Easing**   |             Linear |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |       Cubic bezier |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |              Steps |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |  Spring simulation |    ❌     |  ✅ +1kb  |      ❌       |     ❌     |
+|              |              Glide |    ❌     | ✅ +1.3kb |      ❌       | ✅ $99/yr  |
+|              |      Spring easing |    ❌     |    ❌     |      ✅       |     ❌     |
+|              |     Custom easings |    ❌     |    ❌     |      ✅       |     ✅     |
+| **Events**   |           Complete |    ✅     |    ✅     |      ✅       |     ✅     |
+|              |             Cancel |    ^     |    ✅     |      ✅       |     ✅     |
+|              |              Start |    ❌     |    ❌     |      ✅       |     ✅     |
+|              |             Update |    ❌     |    ❌     |      ✅       |     ✅     |
+|              |             Repeat |   N/A    |    ❌     |      ✅       |     ✅     |
+| **Path**     |        Motion path |    ❌     |    ✅     |      ✅       | ✅ +9.5kb  |
+|              |      Path morphing |    ❌     |  ✅ lib   | ✅ = #points  | ✅ $99/yr  |
+|              |       Path drawing |    ✅     |    ✅     |      ✅       | ✅ $99/yr  |
+| **Other**    |            license |   MIT    |   MIT    |     MIT      |  Custom   |
+|              |   GPU acceleration |    ✅     |    ✅     |      ❌       |     ❌     |
+|              |          IE11 (ew) |    ❌     |    ❌     |      ✅       |     ✅     |
+|              |         Frameworks |    ✅     |    ✅     |      ❌       |     ❌     |
