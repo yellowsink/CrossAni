@@ -1,6 +1,6 @@
 {
     "name": "@crossani/spring",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A silky smooth spring animation library",
     "scripts": {
         "prepublish": "tsc && esbuild src/index.ts --format=cjs --bundle --outfile=dist/cjs.js"
