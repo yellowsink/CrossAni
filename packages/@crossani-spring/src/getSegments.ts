@@ -80,7 +80,7 @@ function* getPoints(magnitude = 1, cfg: SpringCfg): Generator<[number, number]> 
       Math.abs(magnitude - x) <= cfg.restThres &&
       Math.abs(v) <= cfg.restThres
     ) {
-      yield [i, 1];
+      yield [i, magnitude];
       return;
     }
 
