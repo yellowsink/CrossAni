@@ -16,7 +16,6 @@ export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
 
     queue.push(trigger());
 
-    // @ts-expect-error *french bread*
     el.doTransition(trigger()).then(() => {
       queue.shift();
       stateOut?.(() => queue[0]);

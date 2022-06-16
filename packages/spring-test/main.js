@@ -22,6 +22,7 @@ window.addEventListener("mousemove", (ev) => {
 
 box.addEventListener("mousedown", () => {
   isDragging = true;
+  box.abortSprings();
   box.removeCrossAni();
   box.style.left = "200px";
   box.style.top = "200px";
@@ -29,5 +30,5 @@ box.addEventListener("mousedown", () => {
 box.addEventListener("mouseup", () => {
   isDragging = false;
   box.doSpring(boxPos[0], 200, "left", "px");
-  //box.doSpring(boxPos[1], 200, "top", "px");
+  box.doSpring(boxPos[1], 200, "top", "px");
 });
