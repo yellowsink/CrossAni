@@ -8,7 +8,7 @@ import {
   whenTransitionAborts,
 } from "./util";
 
-export { EASE, JUMP } from "./generator";
+export { EASE, JUMP } from "./transCssManager";
 
 SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
   function (transOrName) {
@@ -41,6 +41,11 @@ SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
 
     return promise;
   };
+
+SVGElement.prototype.forcePop = HTMLElement.prototype.forcePop =
+  function () {
+    popAll(this);
+  }
 
 SVGElement.prototype.removeCrossAni = HTMLElement.prototype.removeCrossAni =
   function () {

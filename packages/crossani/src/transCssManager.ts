@@ -42,20 +42,20 @@ export const JUMP: Jumps = {
   both: "jump-both",
 };
 
-export const generateTransition = (
-  prevState: ElementState,
-  transition: Transition
-) =>
-  distinct([
-    ...Object.keys(transition.state ?? {}),
-    ...Object.keys(prevState.curr),
-  ])
-    .map(
-      (p) =>
-        `${p} ${transition.ms ?? prevState.lastMs}ms ${
-          transition.easing ?? prevState.lastEase
-        }`
-    )
-    .join(",");
+export function updateTransition(state: ElementState, trans: Transition) {
+  for (const prop in trans.state)
+    if (!state.running.has(prop))
+      state.running.set(prop, [
+        trans.ms ?? state.lastMs,
+        prop,
+        trans.easing ?? state.lastEase,
+      ]);
+}
 
-export const distinct = <T>(arr: T[]) => Array.from(new Set(arr));
+/* export const finishTransition = (state: ElementState, trans: Transition) =>
+  Object.keys(trans.state ?? {}).forEach((p) => state.running.delete(p)); */
+
+export const generateTransition = (state: ElementState) =>
+  Array.from(state.running.values())
+    .map(([ms, prop, ease]) => `${prop} ${ms ?? state.lastMs}ms ${ease ?? state.lastEase}`)
+    .join(",");

@@ -1,6 +1,7 @@
-import { EASE } from "./generator";
+import { EASE } from "./transCssManager";
 import { stateStore } from "./shared";
 import { ElementState, Transition } from "./types";
+import { startAnimating } from "./animator";
 
 /** Converts a CSSStyleDeclaration to a Record<string, string> */
 export function cloneStyles(styles: CSSStyleDeclaration) {
@@ -28,9 +29,10 @@ export function getOrInitStore(elem: HTMLElement | SVGElement) {
     curr: {},
     orig: cloneStyles(elem.style),
     queue: [],
-    transitionPromises: [],
+    transitionPromises: new Map(),
     lastEase: EASE.ease,
     lastMs: 100,
+    running: new Map()
   };
 
   sanitiseStyleObject(newState.orig);
@@ -54,12 +56,16 @@ export function queueTransition(
   transition: Transition
 ): [boolean, Promise<void>] {
   const state = getOrInitStore(elem);
-  state.queue.push(transition);
+
+  if (transition.detached)
+    startAnimating(elem, transition);
+  else
+    state.queue.push(transition);
 
   let resolve: () => void;
   const promise = new Promise<void>((res) => (resolve = res));
 
-  state.transitionPromises.push([transition, promise, () => resolve()]);
+  state.transitionPromises.set(transition, [promise, () => resolve()]);
 
   return [state.queue.length === 1, promise];
 }

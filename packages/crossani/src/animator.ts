@@ -1,6 +1,7 @@
-import { generateTransition } from "./generator";
+import { generateTransition, updateTransition } from "./transCssManager";
 import { getOrInitStore, updateStyles } from "./util";
-import {enqueue} from "./queue";
+import { enqueue } from "./queue";
+import { Transition } from "./types";
 
 /** Pops the first transition off the queue instantly */
 function popFirst(elem: HTMLElement | SVGElement) {
@@ -13,7 +14,8 @@ function popFirst(elem: HTMLElement | SVGElement) {
   else Object.assign(state.curr, transition.state);
 
   // resolve
-  state.transitionPromises.shift()?.[2]();
+  state.transitionPromises.get(transition)?.[1]();
+  state.transitionPromises.delete(transition);
 
   return true;
 }
@@ -27,29 +29,32 @@ export function popAll(elem: HTMLElement | SVGElement) {
 export const abortAnimation = (elem: HTMLElement | SVGElement) =>
   (elem.style.transition = "none");
 
-export function startAnimating(elem: HTMLElement | SVGElement) {
+export function startAnimating(
+  elem: HTMLElement | SVGElement,
+  transition?: Transition
+) {
   const state = getOrInitStore(elem);
-  const transition = state.queue[0];
+  if (!transition?.detached) transition = state.queue[0];
   if (!transition) return;
 
-  // generates the style transition: property string
-  // needs to be run before updating state.curr or some values may not work correctly
-  const transitionString = generateTransition(state, transition);
+  updateTransition(state, transition);
 
   // update styles
   if (transition.reset) state.curr = { ...transition.state };
   else Object.assign(state.curr, transition.state);
 
+  // run transition
+  elem.style.transition = generateTransition(state);
+  updateStyles(elem);
+
   state.lastMs = transition.ms ?? state.lastMs;
   state.lastEase = transition.easing ?? state.lastEase;
 
-  // run transition
-  elem.style.transition = transitionString;
-  updateStyles(elem);
-
   enqueue(() => {
+    state.transitionPromises.get(transition!)?.[1]();
+    state.transitionPromises.delete(transition!);
+    if (transition!.detached) return;
     state.queue.shift();
-    state.transitionPromises.shift()?.[2]();
 
     startAnimating(elem);
   }, state.lastMs + 1); // lmao

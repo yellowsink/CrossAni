@@ -10,9 +10,11 @@ export interface Transition {
   reset?: boolean;
   /** Cut off & run all queued transitions instantly instead of waiting */
   cutOff?: boolean;
-  /** Don't bother with the queue lol */
-  untracked?: boolean;
+  /** Don't track and queue this */
+  detached?: boolean;
 }
+
+export type CssTransition = [number | undefined, string, string | undefined];
 
 /** @internal */
 export interface ElementState {
@@ -23,11 +25,13 @@ export interface ElementState {
   /** Animations queued to run. First transition is currently running */
   queue: Transition[];
   /** Stores promises for transition completion */
-  transitionPromises: [Transition, Promise<void>, () => void][];
+  transitionPromises: Map<Transition, [Promise<void>, () => void]>;
   /** Stores the previous ms value of the element */
   lastMs: number;
   /** Stores the previous ease value of the element */
   lastEase: string;
+  /** Current running transitions */
+  running: Map<string, CssTransition>;
 }
 
 declare global {
@@ -40,5 +44,8 @@ declare global {
 
     /** Removes CrossAni from this element */
     removeCrossAni(): void;
+
+    /** Stops currently running animations */
+    forcePop(): void;
   }
 }

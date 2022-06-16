@@ -1,5 +1,5 @@
 import { unload } from ".";
-import { EASE, JUMP } from "./generator";
+import { EASE, JUMP } from "./transCssManager";
 
 // @ts-expect-error
 window.EASE = EASE;
