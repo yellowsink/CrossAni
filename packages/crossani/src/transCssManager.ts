@@ -44,12 +44,11 @@ export const JUMP: Jumps = {
 
 export function updateTransition(state: ElementState, trans: Transition) {
   for (const prop in trans.state)
-    if (!state.running.has(prop))
-      state.running.set(prop, [
-        trans.ms ?? state.lastMs,
-        prop,
-        trans.easing ?? state.lastEase,
-      ]);
+    state.running.set(prop, [
+      trans.ms ?? state.lastMs,
+      prop,
+      trans.easing ?? state.lastEase,
+    ]);
 }
 
 /* export const finishTransition = (state: ElementState, trans: Transition) =>

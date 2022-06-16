@@ -5,4 +5,6 @@ A silky smooth declarative animation library for the web.
 For more information, see the relevant packages:
 
 - [`crossani`](https://github.com/lexisother/CrossAni/tree/master/packages/crossani#readme)
-- [`solid-crossani`](https://github.com/lexisother/CrossAni/tree/master/packages/solid-crossani#readme)
+- [`@crossani/solid`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-solid#readme)
+- [`@crossani/react`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-react#readme)
+- [`@crossani/spring`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-spring#readme)
