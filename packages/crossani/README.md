@@ -22,7 +22,7 @@ The main other way to achieve this is the Web Animations API (WAAPI) like Motion
 
 We live in an era of shaving milliseconds off load times, and a good chunk of this is JS bundle size.
 
-CrossAni is _TINY_. As I write this it's 2.5KB raw or 1.12KB gzipped.
+CrossAni is _TINY_. As I write this it's 2.81KB raw or 1.25KB gzipped.
 This is much smaller than the major animation libraries available (see comparisons further down).
 
 ## How does it behave?
@@ -55,7 +55,8 @@ You can then modify the styles, and call `doTransition` as usual, re-initing tha
 
 ### (1) Assign some states to your element
 
-Any element that should be animated can have a `transitions` property with a key-value record of strings to transition objects.
+Any element that should be animated can have a `transitions` property with a key-value record of strings to transition
+objects.
 
 You may also pass transition objects directly to doTransition,
 which is helpful for programmatically generated animations for example.
@@ -70,14 +71,15 @@ A transition object contains the following things:
 - `detached`: if true, this transition is completely independent of the global queue and runs instantly.
 
 Transition objects allow all properties to be undefined, and will provide useful defaults:
+
 ```js
 ({
-  state: {},
-  ms: 100, // falls through from past transition, this value is for the first transition
-  easing: EASE.ease, // see above comment
-  cutOff: false,
-  reset: false,
-  detached: false
+	state: {},
+	ms: 100, // falls through from past transition, this value is for the first transition
+	easing: EASE.ease, // see above comment
+	cutOff: false,
+	reset: false,
+	detached: false
 })
 ```
 
@@ -87,17 +89,17 @@ An example setup would be as follows:
 const box = document.getElementById("box");
 
 box.transitions = {
-  default: {
-    ms: 500,
-    easing: EASE.inOut,
-    reset: true,
-    cutOff: true,
-  },
+	default: {
+		ms: 500,
+		easing: EASE.inOut,
+		reset: true,
+		cutOff: true,
+	},
 
-  hover: {
-    state: { transform: "scale(1.1)" },
-    ms: 250
-  },
+	hover: {
+		state: {transform: "scale(1.1)"},
+		ms: 250
+	},
 };
 ```
 
@@ -122,12 +124,12 @@ Promises make complexity into simplicity
 
 ```js
 async function introAnimation() {
-  box.doTransition("moveright");
-  box.doTransition("slowgrow");
-  await box.doTransition("fadetextout");
-  box.innerText = "the text is now different";
-  box.doTransition("fadetextin");
-  await box.doTransition("makemassive");
+	box.doTransition("moveright");
+	box.doTransition("slowgrow");
+	await box.doTransition("fadetextout");
+	box.innerText = "the text is now different";
+	box.doTransition("fadetextin");
+	await box.doTransition("makemassive");
 }
 ```
 
@@ -135,7 +137,8 @@ async function introAnimation() {
 
 `opacity`, `transform`, `filter`, as these are things that can be done in the compositor stage.
 
-`background-color` and `clip-path` may be accelerated in Chrome too, but ensure to test in all browsers for optimum speed.
+`background-color` and `clip-path` may be accelerated in Chrome too, but ensure to test in all browsers for optimum
+speed.
 
 Non `transform` _movements_ are slower as, although the browser is running the animation,
 repaints and often reflows are necessary, which are expensive.
@@ -158,59 +161,63 @@ However, CrossAni does not support some SVG attributes such as `d`.
 
 All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as the cdn.
 
-| Pkg      | Raw     | Gzip    | Brotli  |
-|----------|---------|---------|---------|
-| crossani | 2.5kb   | 1.12kb  | 1.05kb  |
-| motion   | 15.07kb | 6.34kb  | 6.17kb  |
-| animejs  | 17.59kb | 7.19kb  | 6.99kb  |
-| gsap     | 61.97kb | 24.45kb | 23.86kb |
+| Pkg         | Raw     | Gzip    | Brotli  | Bar (br)   |
+|-------------|---------|---------|---------|------------|
+| crossani    | 2.8kb   | 1.25kb  | 1.18kb  | ▌          |
+| ca + spring | 4.05kb  | 1.88kb  | 1.8kb   | ▊          |
+| motion      | 15.07kb | 6.34kb  | 6.17kb  | ██▌        |
+| animejs     | 17.59kb | 7.19kb  | 6.99kb  | ███        |
+| gsap        | 61.97kb | 24.45kb | 23.86kb | ██████████ |
 
 ### Features
 
-|              |            Feature | CrossAni |  Motion  |   AnimeJS    | Greensock |
-|--------------|-------------------:|:--------:|:--------:|:------------:|:---------:|
-| **Values**   |    CSS `transform` |    ✅     |    ✅     |      ❌       |     ✅     |
-|              |      Named colours |    ✅     |    ✅     |      ❌       |  Partial  |
-|              |   Colour type conv |    ✅     |    ✅     | Wrong interp |     ✅     |
-|              |   To/from CSS vars |    ✅     |    ✅     |      ❌       |     ❌     |
-|              |  To/from CSS funcs |    ✅     |    ✅     |      ❌       |     ❌     |
-|              |   Animate CSS vars |    ❌     |    ✅     |      ❌       |     ❌     |
-|              |   Simple keyframes | ❌ Soon?  |    ✅     |      ✅       |     ❌     |
-|              | Wildcard keyframes |   N/A    |    ✅     |      ❌       |     ❌     |
-|              |    Relative values |    ❌     |    ✅     |      ❌       |     ❌     |
-| **Output**   |     Element styles |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |      Element attrs |    ❌     |    ❌     |      ✅       |     ✅     |
-|              |  Custom animations |    ❌     |    ✅     |      ✅       |     ✅     |
-| **Options**  |           Duration |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |          Direction |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |             Repeat |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |              Delay |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |          End delay |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |       Repeat delay |    ❌     |    ✅     |      ❌       |     ✅     |
-| **Stagger**  |            Stagger |    ❌     | ✅ +.1kb  |      ✅       |     ✅     |
-| **Timeline** |           Timeline |    ❌     | ✅ +.6kb  |      ✅       |     ✅     |
-| **Controls** |               Play |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |              Pause |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |             Finish |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |            Reverse |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |               Stop |    ❌     |    ✅     |      ✅       |     ✅     |
-|              |      Playback rate |    ❌     |    ✅     |      ✅       |     ✅     |
-| **Easing**   |             Linear |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |       Cubic bezier |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |              Steps |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |  Spring simulation |    ❌     |  ✅ +1kb  |      ❌       |     ❌     |
-|              |              Glide |    ❌     | ✅ +1.3kb |      ❌       | ✅ $99/yr  |
-|              |      Spring easing |    ❌     |    ❌     |      ✅       |     ❌     |
-|              |     Custom easings |    ❌     |    ❌     |      ✅       |     ✅     |
-| **Events**   |           Complete |    ✅     |    ✅     |      ✅       |     ✅     |
-|              |             Cancel |    ^     |    ✅     |      ✅       |     ✅     |
-|              |              Start |    ❌     |    ❌     |      ✅       |     ✅     |
-|              |             Update |    ❌     |    ❌     |      ✅       |     ✅     |
-|              |             Repeat |   N/A    |    ❌     |      ✅       |     ✅     |
-| **Path**     |        Motion path |    ❌     |    ✅     |      ✅       | ✅ +9.5kb  |
-|              |      Path morphing |    ❌     |  ✅ lib   | ✅ = #points  | ✅ $99/yr  |
-|              |       Path drawing |    ✅     |    ✅     |      ✅       | ✅ $99/yr  |
-| **Other**    |            license |   MIT    |   MIT    |     MIT      |  Custom   |
-|              |   GPU acceleration |    ✅     |    ✅     |      ❌       |     ❌     |
-|              |          IE11 (ew) |    ❌     |    ❌     |      ✅       |     ✅     |
-|              |         Frameworks |    ✅     |    ✅     |      ❌       |     ❌     |
+|              |            Feature | CrossAni |  Motion  | AnimeJS | Greensock |
+|--------------|-------------------:|:--------:|:--------:|:-------:|:---------:|
+| **Values**   |    CSS `transform` |    ✅     |    ✅     |    ❌    |     ✅     |
+|              |      Named colours |    ✅     |    ✅     |    ❌    |  Partial  |
+|              |   Colour type conv |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |   To/from CSS vars |    ✅     |    ✅     |    ❌    |     ❌     |
+|              |  To/from CSS funcs |    ✅     |    ✅     |    ❌    |     ❌     |
+|              |   Animate CSS vars |    ❌     |    ✅     |    ❌    |     ❌     |
+|              |   Simple keyframes |  ❌ WIP   |    ✅     |    ✅    |     ❌     |
+|              | Wildcard keyframes |   N/A    |    ✅     |    ❌    |     ❌     |
+|              |    Relative values |    ❌     |    ✅     |    ❌    |     ❌     |
+| **Output**   |     Element styles |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |      Element attrs |    ❌     |    ❌     |    ✅    |     ✅     |
+|              |  Custom animations |    ❌     |    ✅     |    ✅    |     ✅     |
+| **Options**  |           Duration |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |          Direction |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |             Repeat |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |              Delay |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |          End delay |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |       Repeat delay |    ❌     |    ✅     |    ❌    |     ✅     |
+| **Stagger**  |            Stagger |    ❌     | ✅ +.1kb  |    ✅    |     ✅     |
+| **Timeline** |           Timeline |    ❌     | ✅ +.6kb  |    ✅    |     ✅     |
+| **Controls** |               Play |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |              Pause |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |             Finish |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |            Reverse |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |               Stop |    ❌     |    ✅     |    ✅    |     ✅     |
+|              |      Playback rate |    ❌     |    ✅     |    ✅    |     ✅     |
+| **Easing**   |             Linear |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |       Cubic bezier |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |              Steps |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |            Springs | ✅ +1.2kb |  ✅ +1kb  |    ✅    |     ❌     |
+|              |              Glide |    ❌     | ✅ +1.3kb |    ❌    | ✅ $99/yr  |
+|              |   Custom easing fn |    ❌     |    ❌     |    ✅    |     ✅     |
+| **Events**   |           Complete |    ✅     |    ✅     |    ✅    |     ✅     |
+|              |             Cancel |    ^     |    ✅     |    ✅    |     ✅     |
+|              |              Start |    ❌     |    ❌     |    ✅    |     ✅     |
+|              |             Update |    ❌     |    ❌     |    ✅    |     ✅     |
+|              |             Repeat |   N/A    |    ❌     |    ✅    |     ✅     |
+| **Path**     |        Motion path |    ❌     |    ✅     |    ✅    | ✅ +9.5kb  |
+|              |      Path morphing |    ❌     | ✅ (lib)  |   ✅ *   | ✅ $99/yr  |
+|              |       Path drawing |    ✅     |    ✅     |    ✅    | ✅ $99/yr  |
+| **Other**    |            license |   MIT    |   MIT    |   MIT   |  Custom   |
+|              |   GPU acceleration |    ✅     |    ✅     |    ❌    |     ❌     |
+|              |          IE11 (ew) |    ❌     |    ❌     |    ✅    |     ✅     |
+|              |            ReactJS | ✅ +127b  |    ❌     |    ❌    |     ❌     |
+|              |            SolidJS | ✅ +258b  |  ✅ +2kb  |    ❌    |     ❌     |
+|              |             Vue.js |    ❌     |  ✅ +1kb  |    ❌    |     ❌     |
+
+_\* must have the same number of points (Path morphing in AnimeJS)_
