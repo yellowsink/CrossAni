@@ -6,8 +6,9 @@
     "build:crossani": "cd packages/crossani && pnpm prepublish",
     "build:solid": "cd packages/@crossani-solid && pnpm prepublish",
     "build:react": "cd packages/@crossani-react && pnpm prepublish",
+    "build:svelte": "cd packages/@crossani-svelte && pnpm prepublish",
     "build:spring": "cd packages/@crossani-spring && pnpm prepublish",
-    "build": "pnpm build:crossani && pnpm build:solid && pnpm build:react && pnpm build:spring"
+    "build": "pnpm build:crossani && pnpm build:solid && pnpm build:react && pnpm build:svelte && pnpm build:spring"
   },
   "packageManager": "pnpm@7.0.0",
   "pnpm": {
@@ -15,6 +16,7 @@
       "crossani": "workspace:*",
       "@crossani/solid": "workspace:*",
       "@crossani/react": "workspace:*",
+      "@crossani/svelte": "workspace:*",
       "@crossani/spring": "workspace:*"
     }
   }
