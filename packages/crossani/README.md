@@ -171,53 +171,54 @@ All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as th
 
 ### Features
 
-|              |            Feature | CrossAni |  Motion  | AnimeJS | Greensock |
-|--------------|-------------------:|:--------:|:--------:|:-------:|:---------:|
-| **Values**   |    CSS `transform` |    ✅     |    ✅     |    ❌    |     ✅     |
-|              |      Named colours |    ✅     |    ✅     |    ❌    |  Partial  |
-|              |   Colour type conv |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |   To/from CSS vars |    ✅     |    ✅     |    ❌    |     ❌     |
-|              |  To/from CSS funcs |    ✅     |    ✅     |    ❌    |     ❌     |
-|              |   Animate CSS vars |    ❌     |    ✅     |    ❌    |     ❌     |
-|              |   Simple keyframes |  ❌ WIP   |    ✅     |    ✅    |     ❌     |
-|              | Wildcard keyframes |   N/A    |    ✅     |    ❌    |     ❌     |
-|              |    Relative values |    ❌     |    ✅     |    ❌    |     ❌     |
-| **Output**   |     Element styles |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |      Element attrs |    ❌     |    ❌     |    ✅    |     ✅     |
-|              |  Custom animations |    ❌     |    ✅     |    ✅    |     ✅     |
-| **Options**  |           Duration |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |          Direction |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |             Repeat |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |              Delay |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |          End delay |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |       Repeat delay |    ❌     |    ✅     |    ❌    |     ✅     |
-| **Stagger**  |            Stagger |    ❌     | ✅ +.1kb  |    ✅    |     ✅     |
-| **Timeline** |           Timeline |    ❌     | ✅ +.6kb  |    ✅    |     ✅     |
-| **Controls** |               Play |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |              Pause |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |             Finish |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |            Reverse |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |               Stop |    ❌     |    ✅     |    ✅    |     ✅     |
-|              |      Playback rate |    ❌     |    ✅     |    ✅    |     ✅     |
-| **Easing**   |             Linear |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |       Cubic bezier |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |              Steps |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |            Springs | ✅ +1.2kb |  ✅ +1kb  |    ✅    |     ❌     |
-|              |              Glide |    ❌     | ✅ +1.3kb |    ❌    | ✅ $99/yr  |
-|              |   Custom easing fn |    ❌     |    ❌     |    ✅    |     ✅     |
-| **Events**   |           Complete |    ✅     |    ✅     |    ✅    |     ✅     |
-|              |             Cancel |    ^     |    ✅     |    ✅    |     ✅     |
-|              |              Start |    ❌     |    ❌     |    ✅    |     ✅     |
-|              |             Update |    ❌     |    ❌     |    ✅    |     ✅     |
-|              |             Repeat |   N/A    |    ❌     |    ✅    |     ✅     |
-| **Path**     |        Motion path |    ❌     |    ✅     |    ✅    | ✅ +9.5kb  |
-|              |      Path morphing |    ❌     | ✅ (lib)  |   ✅ *   | ✅ $99/yr  |
-|              |       Path drawing |    ✅     |    ✅     |    ✅    | ✅ $99/yr  |
-| **Other**    |            license |   MIT    |   MIT    |   MIT   |  Custom   |
-|              |   GPU acceleration |    ✅     |    ✅     |    ❌    |     ❌     |
-|              |          IE11 (ew) |    ❌     |    ❌     |    ✅    |     ✅     |
-|              |            ReactJS | ✅ +127b  |    ❌     |    ❌    |     ❌     |
-|              |            SolidJS | ✅ +258b  |  ✅ +2kb  |    ❌    |     ❌     |
-|              |             Vue.js |    ❌     |  ✅ +1kb  |    ❌    |     ❌     |
+|              |            Feature | CrossAni  |  Motion  | AnimeJS | Greensock |
+|--------------|-------------------:|:---------:|:--------:|:-------:|:---------:|
+| **Values**   |    CSS `transform` |     ✅     |    ✅     |    ❌    |     ✅     |
+|              |      Named colours |     ✅     |    ✅     |    ❌    |  Partial  |
+|              |   Colour type conv |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |   To/from CSS vars |     ✅     |    ✅     |    ❌    |     ❌     |
+|              |  To/from CSS funcs |     ✅     |    ✅     |    ❌    |     ❌     |
+|              |   Animate CSS vars |     ❌     |    ✅     |    ❌    |     ❌     |
+|              |   Simple keyframes |   ❌ WIP   |    ✅     |    ✅    |     ❌     |
+|              | Wildcard keyframes |    N/A    |    ✅     |    ❌    |     ❌     |
+|              |    Relative values |     ❌     |    ✅     |    ❌    |     ❌     |
+| **Output**   |     Element styles |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |      Element attrs |     ❌     |    ❌     |    ✅    |     ✅     |
+|              |  Custom animations |     ❌     |    ✅     |    ✅    |     ✅     |
+| **Options**  |           Duration |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |          Direction |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |             Repeat |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |              Delay |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |          End delay |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |       Repeat delay |     ❌     |    ✅     |    ❌    |     ✅     |
+| **Stagger**  |            Stagger |     ❌     | ✅ +.1kb  |    ✅    |     ✅     |
+| **Timeline** |           Timeline |     ❌     | ✅ +.6kb  |    ✅    |     ✅     |
+| **Controls** |               Play |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |              Pause |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |             Finish |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |            Reverse |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |               Stop |     ❌     |    ✅     |    ✅    |     ✅     |
+|              |      Playback rate |     ❌     |    ✅     |    ✅    |     ✅     |
+| **Easing**   |             Linear |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |       Cubic bezier |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |              Steps |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |            Springs | ✅ +1.2kb  |  ✅ +1kb  |    ✅    |     ❌     |
+|              |              Glide |     ❌     | ✅ +1.3kb |    ❌    | ✅ $99/yr  |
+|              |   Custom easing fn |     ❌     |    ❌     |    ✅    |     ✅     |
+| **Events**   |           Complete |     ✅     |    ✅     |    ✅    |     ✅     |
+|              |             Cancel |     ^     |    ✅     |    ✅    |     ✅     |
+|              |              Start |     ❌     |    ❌     |    ✅    |     ✅     |
+|              |             Update |     ❌     |    ❌     |    ✅    |     ✅     |
+|              |             Repeat |    N/A    |    ❌     |    ✅    |     ✅     |
+| **Path**     |        Motion path |     ❌     |    ✅     |    ✅    | ✅ +9.5kb  |
+|              |      Path morphing |     ❌     | ✅ (lib)  |   ✅ *   | ✅ $99/yr  |
+|              |       Path drawing |     ✅     |    ✅     |    ✅    | ✅ $99/yr  |
+| **Other**    |            license |    MIT    |   MIT    |   MIT   |  Custom   |
+|              |   GPU acceleration |     ✅     |    ✅     |    ❌    |     ❌     |
+|              |          IE11 (ew) |     ❌     |    ❌     |    ✅    |     ✅     |
+|              |            ReactJS | ✅ +0.1kb  |    ❌     |    ❌    |     ❌     |
+|              |            SolidJS | ✅ +0.25kb |  ✅ +2kb  |    ❌    |     ❌     |
+|              |             Vue.js |     ❌     |  ✅ +1kb  |    ❌    |     ❌     |
+|              |             Svelte | ✅ +0.4kb  |    ❌     |    ❌    |     ❌     |
 
 _\* must have the same number of points (Path morphing in AnimeJS)_
