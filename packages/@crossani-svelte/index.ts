@@ -4,12 +4,12 @@ import type { Readable, Writable } from "svelte/store";
 
 type Trans = Transition | string;
 type UpdateParams = Partial<
-  [Readable<Trans>, Writable<Trans | undefined>, Record<string, Transition>]
+  [Record<string, Transition>, Readable<Trans>, Writable<Trans | undefined>]
 >;
 
 export default (
   node: HTMLElement,
-  [stateStore, currentStore, transObj]: UpdateParams = []
+  [transObj, stateStore, currentStore]: UpdateParams = []
 ) => {
   node.transitions = transObj;
 
@@ -39,7 +39,7 @@ export default (
   let unsub = stateStore?.subscribe(handleTransition);
 
   return {
-    update([nuState, nuCurrent, nuTransObj]: UpdateParams = []) {
+    update([nuTransObj, nuState, nuCurrent]: UpdateParams = []) {
       if (nuState !== stateStore) {
         unsub?.();
         unsub = stateStore?.subscribe(handleTransition);

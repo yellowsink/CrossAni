@@ -75,7 +75,7 @@
 </div>
 
 <div
-  use:crossani={[trigger, current, transitions]}
+  use:crossani={[transitions, trigger, current]}
 
   style:background-color="red"
   style:width="100px"
