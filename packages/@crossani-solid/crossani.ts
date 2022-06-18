@@ -9,14 +9,19 @@ export default (el: Element, argsAccessor: Accessor<CrossAniArgs>) => {
   const queue = [] as (string | Transition)[];
 
   createEffect(() => {
-    // @ts-expect-error el.transitions no exist wew
-    if (typeof trigger() !== "object" && !el.transitions[trigger()]) return;
+    const trans = trigger();
+    if (typeof trans !== "object" && !el.transitions?.[trans]) return;
 
-    if (queue.length === 0) stateOut?.(() => trigger());
+    if ((typeof trans === "object" ? trans : el.transitions?.[trans])?.detached) {
+      el.doTransition(trans);
+      return;
+    }
 
-    queue.push(trigger());
+    if (queue.length === 0) stateOut?.(() => trans);
 
-    el.doTransition(trigger()).then(() => {
+    queue.push(trans);
+
+    el.doTransition(trans).then(() => {
       queue.shift();
       stateOut?.(() => queue[0]);
     });

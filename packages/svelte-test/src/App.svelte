@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { writable } from "svelte/store";
 	import { EASE } from "crossani";
-	import crossani from "@crossani/svelte";
-	import { tick } from "svelte";
+	import crossani, { InType, OutType } from "@crossani/svelte";
 
 	const transitions = {
 		default: {
@@ -48,28 +48,26 @@
 		easing: EASE.startSteps(2),
 	};
 
-	let trigger, current;
+	let trigger = writable<InType>();
+	let current = writable<OutType>();
 
-	async function triggerAnimation() {
-		trigger = "step1";
-		await tick();
-		trigger = "step2";
-		await tick();
-		trigger = "step3";
-		await tick();
-		trigger = step4;
+  function triggerAnimation() {
+		$trigger = "step1";
+		$trigger = "step2";
+		$trigger = "step3";
+		$trigger = step4;
 	}
 </script>
 
 <div style:gap=".25em" style:display="flex">
 
   <button on:click={triggerAnimation}>trigger</button>
-  <button on:click={() => trigger = "default"}>reset</button>
+  <button on:click={() => $trigger = "default"}>reset</button>
 
-  {#if typeof current === "object"}
+  {#if typeof $current === "object"}
     <em>Custom animation</em>
-  {:else if current !== undefined}
-    {current}
+  {:else if $current !== undefined}
+    {$current}
   {:else}
     <em>Not currently animating</em>
   {/if}
@@ -77,7 +75,7 @@
 </div>
 
 <div
-  use:crossani={[trigger, (c) => current = c, transitions]}
+  use:crossani={[trigger, current, transitions]}
 
   style:background-color="red"
   style:width="100px"
