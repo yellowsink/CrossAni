@@ -43,7 +43,10 @@ export const JUMP: Jumps = {
 };
 
 export function updateTransition(state: ElementState, trans: Transition) {
-  for (const prop in trans.state)
+  for (const prop of [
+    ...Object.keys(trans.state ?? {}),
+    ...(trans.reset ? state.running.keys() : []),
+  ])
     state.running.set(prop, [
       trans.ms ?? state.lastMs,
       prop,
@@ -56,5 +59,8 @@ export function updateTransition(state: ElementState, trans: Transition) {
 
 export const generateTransition = (state: ElementState) =>
   Array.from(state.running.values())
-    .map(([ms, prop, ease]) => `${prop} ${ms ?? state.lastMs}ms ${ease ?? state.lastEase}`)
+    .map(
+      ([ms, prop, ease]) =>
+        `${prop} ${ms ?? state.lastMs}ms ${ease ?? state.lastEase}`
+    )
     .join(",");

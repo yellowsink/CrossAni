@@ -46,6 +46,6 @@ declare global {
     removeCrossAni(): void;
 
     /** Stops currently running animations */
-    forcePop(): void;
+    forcePop(): Promise<void>;
   }
 }

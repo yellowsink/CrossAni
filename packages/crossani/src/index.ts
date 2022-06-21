@@ -42,10 +42,13 @@ SVGElement.prototype.doTransition = HTMLElement.prototype.doTransition =
     return promise;
   };
 
-SVGElement.prototype.forcePop = HTMLElement.prototype.forcePop =
-  function () {
+SVGElement.prototype.forcePop = HTMLElement.prototype.forcePop = function () {
+  return new Promise((res) => {
+    abortAnimation(this);
     popAll(this);
-  }
+    whenTransitionAborts(this, res);
+  });
+};
 
 SVGElement.prototype.removeCrossAni = HTMLElement.prototype.removeCrossAni =
   function () {

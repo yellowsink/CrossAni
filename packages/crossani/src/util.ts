@@ -97,7 +97,7 @@ export const whenTransitionAborts = (
 
   const animateOnceStopped = () =>
     requestAnimationFrame(
-      elem.style.transitionProperty === "none" ? callback : animateOnceStopped
+      elem.style.transitionProperty === "none" ? () => void callback() : animateOnceStopped
     );
 
   requestAnimationFrame(animateOnceStopped);

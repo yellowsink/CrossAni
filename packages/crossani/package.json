@@ -1,6 +1,6 @@
 {
   "name": "crossani",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A silky smooth declarative animation library for the web.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
