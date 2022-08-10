@@ -218,7 +218,7 @@ All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as th
 |              |          IE11 (ew) |     ❌     |    ❌     |    ✅    |     ✅     |
 |              |            ReactJS | ✅ +0.1kb  |    ❌     |    ❌    |     ❌     |
 |              |            SolidJS | ✅ +0.25kb |  ✅ +2kb  |    ❌    |     ❌     |
-|              |             Vue.js |     ❌     |  ✅ +1kb  |    ❌    |     ❌     |
+|              |             Vue.js | ✅ +0.6kb  |  ✅ +1kb  |    ❌    |     ❌     |
 |              |             Svelte | ✅ +0.4kb  |    ❌     |    ❌    |     ❌     |
 
 _\* must have the same number of points (Path morphing in AnimeJS)_
