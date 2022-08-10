@@ -8,4 +8,5 @@ For more information, see the relevant packages:
 - [`@crossani/solid`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-solid#readme)
 - [`@crossani/react`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-react#readme)
 - [`@crossani/svelte`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-svelte#readme)
+- [`@crossani/vue`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-vue#readme)
 - [`@crossani/spring`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-spring#readme)
