@@ -1,0 +1,20 @@
+{
+  "name": "@crossani/vue",
+  "version": "1.0.0",
+  "description": "A silky smooth declarative animation library for svelte.",
+  "scripts": {
+    "prepublish": "tsc"
+  },
+  "author": "Cain Atkinson",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.7.4",
+    "vue": "^3.2.37"
+  },
+  "dependencies": {
+    "crossani": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.37"
+  }
+}

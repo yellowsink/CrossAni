@@ -17,6 +17,7 @@
       "@crossani/solid": "workspace:*",
       "@crossani/react": "workspace:*",
       "@crossani/svelte": "workspace:*",
+      "@crossani/vue": "workspace:*",
       "@crossani/spring": "workspace:*"
     }
   }
