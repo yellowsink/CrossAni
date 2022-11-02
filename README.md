@@ -10,3 +10,4 @@ For more information, see the relevant packages:
 - [`@crossani/svelte`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-svelte#readme)
 - [`@crossani/vue`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-vue#readme)
 - [`@crossani/spring`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-spring#readme)
+- [`@crossani/flip`](https://github.com/lexisother/CrossAni/tree/master/packages/@crossani-flip#readme)

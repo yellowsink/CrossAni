@@ -60,6 +60,13 @@ SVGElement.prototype.removeCrossAni = HTMLElement.prototype.removeCrossAni =
     stateStore.delete(this);
   };
 
+SVGElement.prototype.caSet = HTMLElement.prototype.caSet =
+  function (prop, value) {
+    const store = getOrInitStore(this);
+    store.curr[prop] = value;
+    updateStyles(this);
+  }
+
 export const unload = () => {
   for (const elem of stateStore.keys()) elem.removeCrossAni();
 };

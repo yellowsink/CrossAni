@@ -1,0 +1,20 @@
+{
+  "name": "@crossani/flip",
+  "version": "1.0.3",
+  "description": "A silky smooth dynamic layout animation library",
+  "scripts": {
+    "prepublish": "tsc && esbuild src/index.ts --format=cjs --bundle --outfile=dist/cjs.js"
+  },
+  "main": "dist/cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Cain Atkinson",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.14.43",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "crossani": "workspace:*"
+  }
+}

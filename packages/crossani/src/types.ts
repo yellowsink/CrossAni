@@ -47,5 +47,8 @@ declare global {
 
     /** Stops currently running animations */
     forcePop(): Promise<void>;
+
+    /** Sets a `style` property, updating it in crossani's copy too */
+    caSet(prop: string, value: string): void;
   }
 }

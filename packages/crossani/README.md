@@ -46,8 +46,12 @@ and will be returned to those value after a reset.
 Any _inline_ styles set after an animation has run on that element will readily be overwritten by CrossAni,
 so be aware of that.
 
-You can prevent this behaviour by calling `element.removeCrossAni()` after an animation.
-This will remove any residual styles from transitions, but leave your `transitions `intact.
+You can deal with this by using the `element.caSet(prop, value)` function.
+This will let you set a value on the inline styles without conflicting with CrossAni,
+however do note that styles set this way are removed when `removeCrossAni()` is called.
+
+You can prevent overwrites by calling `element.removeCrossAni()` after an animation.
+This will remove any residual styles from transitions, but leave your `transitions` prop intact.
 
 You can then modify the styles, and call `doTransition` as usual, re-initing that elem's animations
 

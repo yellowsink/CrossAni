@@ -13,6 +13,17 @@ importers:
   .:
     specifiers: {}
 
+  packages/@crossani-flip:
+    specifiers:
+      crossani: workspace:*
+      esbuild: ^0.14.43
+      typescript: ^4.7.3
+    dependencies:
+      crossani: link:../crossani
+    devDependencies:
+      esbuild: 0.14.54
+      typescript: 4.7.4
+
   packages/@crossani-react:
     specifiers:
       '@types/react': ^18.0.12
