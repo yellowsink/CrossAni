@@ -1,10 +1,17 @@
 import "crossani";
 
+type IndividualTransfroms = {
+  translate: string;
+  rotate: string;
+  scale: string;
+};
+
 interface ObjectFlipState {
   absPos: [number, number];
   absSize: [number, number];
   trans: string;
-  indivTrans: { translate: string; rotate: string; scale: string };
+  fullTrans: string;
+  indivTrans: IndividualTransfroms;
 }
 
 interface FlipData {
@@ -32,6 +39,7 @@ function getFlipState(element: HTMLElement): ObjectFlipState {
     absPos: [element.offsetLeft, element.offsetTop],
     absSize: [element.offsetWidth, element.offsetHeight],
     trans: element.style.transform,
+    fullTrans: allTransforms(element),
     indivTrans: {
       translate: element.style.translate ?? "",
       rotate: element.style.rotate ?? "",
@@ -39,6 +47,50 @@ function getFlipState(element: HTMLElement): ObjectFlipState {
     },
   };
 }
+
+// getComputedStyle(e).transform would consolidate all of this into simply a matrix(...) but I don't trust the perf
+const resolveTransform = (trans: string, it: IndividualTransfroms) =>
+  (it.translate ? `translate(${it.translate})` : "") +
+  (it.rotate ? `rotate(${it.rotate})` : "") +
+  (it.scale ? `scale(${it.scale})` : "") +
+  trans;
+
+function allTransforms(e: HTMLElement) {
+  let transforms = resolveTransform(e.style.transform, {
+    translate: e.style.translate,
+    rotate: e.style.rotate,
+    scale: e.style.scale,
+  });
+
+  while (e.parentElement && e.parentElement !== document.body) {
+    e = e.parentElement;
+
+    transforms =
+      resolveTransform(e.style.transform, {
+        translate: e.style.translate,
+        rotate: e.style.rotate,
+        scale: e.style.scale,
+      }) + transforms;
+  }
+
+  return transforms;
+}
+
+const negateTransform = (transform: string) =>
+  transform
+    .split(/(?<=^|\)) /g)
+    .reverse()
+    .join(" ")
+    .replaceAll(
+      /\((.+?)\)/g,
+      (_, p1: string) =>
+        "(" +
+        p1
+          .split(/,\s*/g)
+          .map((s) => "-" + s)
+          .join(", ") +
+        ")"
+    );
 
 HTMLElement.prototype.doFlip = async function (ms, easing, effectCb) {
   const flipData = await this.startFlip(ms, easing);
@@ -58,28 +110,21 @@ HTMLElement.prototype.startFlip = async function (ms, easing) {
 HTMLElement.prototype.applyFlip = async function ({ ms, easing, preState }) {
   const currentState = getFlipState(this);
 
-  // TODO account for parent transforms like GSAP does
-
-  const indivTransforms =
-    (preState.indivTrans.translate
-      ? `translate(${preState.indivTrans.translate})`
-      : "") +
-    (preState.indivTrans.rotate
-      ? `rotate(${preState.indivTrans.rotate})`
-      : "") +
-    (preState.indivTrans.scale
-      ? `scale(${preState.indivTrans.scale})`
-      : "");
-
   const neededTrans = `translate(\
 ${preState.absPos[0] - currentState.absPos[0]}px, \
 ${preState.absPos[1] - currentState.absPos[1]}px)`;
 
   const neededScale = `scale(\
 ${preState.absSize[0] / currentState.absSize[0]}, \
-${preState.absSize[1] / currentState.absSize[1]})`
+${preState.absSize[1] / currentState.absSize[1]})`;
 
-  this.caSet("transform", neededTrans + indivTransforms + neededScale + preState.trans);
+  this.caSet(
+    "transform",
+    neededTrans +
+      negateTransform(currentState.fullTrans) +
+      preState.fullTrans +
+      neededScale
+  );
   this.caSet("translate", "");
   this.caSet("rotate", "");
   this.caSet("scale", "");
@@ -95,7 +140,7 @@ ${preState.absSize[1] / currentState.absSize[1]})`
     },
   });
 
-  this.style.transition = ""
+  this.style.transition = "";
 };
 
 export async function batchFlip(
@@ -104,7 +149,9 @@ export async function batchFlip(
   elems: HTMLElement[],
   effectCb: () => Promise<void>
 ) {
-  const flipDatas = await Promise.all(elems.map((e) => e.startFlip(ms, easing)));
+  const flipDatas = await Promise.all(
+    elems.map((e) => e.startFlip(ms, easing))
+  );
   await effectCb();
   await Promise.all(elems.map((e, i) => e.applyFlip(flipDatas[i])));
 }
