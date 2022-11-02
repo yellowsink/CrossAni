@@ -165,13 +165,17 @@ However, CrossAni does not support some SVG attributes such as `d`.
 
 All packages were ran through [bundlejs](https://bundlejs.com) with esm.sh as the cdn.
 
+Where dependencies are [double-bundled](https://github.com/okikio/bundlejs/issues/39), this is corrected for.
+
 | Pkg         | Raw     | Gzip    | Brotli  | Bar (br)   |
 |-------------|---------|---------|---------|------------|
-| crossani    | 2.8kb   | 1.25kb  | 1.18kb  | ▌          |
-| ca + spring | 4.05kb  | 1.88kb  | 1.8kb   | ▊          |
-| motion      | 15.07kb | 6.34kb  | 6.17kb  | ██▌        |
-| animejs     | 17.59kb | 7.19kb  | 6.99kb  | ███        |
-| gsap        | 61.97kb | 24.45kb | 23.86kb | ██████████ |
+| crossani    | 3KB     | 1.3KB   | 1.23KB  | ▌          |
+| ca + spring | 4.05KB  | 1.88KB  | 1.8KB   | ▊          |
+| ca + FLIP   | 4.57KB  | 1.83KB  | 1.73KB  | ▊          |
+| ca + both   | 5.9KB   | 2.48KB  | 2.39KB  | █          |
+| motion      | 15.07KB | 6.34KB  | 6.17KB  | ██▌        |
+| animejs     | 17.59KB | 7.19KB  | 6.99KB  | ███        |
+| gsap        | 61.97KB | 24.45KB | 23.86KB | ██████████ |
 
 ### Features
 
