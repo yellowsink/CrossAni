@@ -1,6 +1,6 @@
 {
     "name": "@crossani/spring",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "A silky smooth spring animation library",
     "scripts": {
         "prepublish": "tsc && esbuild src/index.ts --format=cjs --bundle --outfile=dist/cjs.js"
@@ -12,9 +12,10 @@
     "license": "MIT",
     "devDependencies": {
         "esbuild": "^0.14.43",
-        "typescript": "^4.7.3"
+        "typescript": "^4.7.3",
+        "crossani": "workspace:^"
     },
-    "dependencies": {
-        "crossani": "workspace:*"
+    "peerDependencies": {
+        "crossani": "workspace:^"
     }
 }

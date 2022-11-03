@@ -1,6 +1,6 @@
 {
   "name": "@crossani/react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A silky smooth declarative animation library for ReactJS.",
   "main": "dist/cjs.js",
   "module": "dist/index.js",
@@ -11,7 +11,7 @@
   "author": "Cain Atkinson",
   "license": "MIT",
   "dependencies": {
-    "crossani": "workspace:*"
+    "crossani": "workspace:^"
   },
   "devDependencies": {
     "@types/react": "^18.0.12",

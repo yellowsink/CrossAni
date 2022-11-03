@@ -8,17 +8,19 @@
     "build:react": "cd packages/@crossani-react && pnpm prepublish",
     "build:svelte": "cd packages/@crossani-svelte && pnpm prepublish",
     "build:spring": "cd packages/@crossani-spring && pnpm prepublish",
-    "build": "pnpm build:crossani && pnpm build:solid && pnpm build:react && pnpm build:svelte && pnpm build:spring"
+    "build:flip": "cd packages/@crossani-spring && pnpm prepublish",
+    "build": "pnpm build:crossani && pnpm build:solid && pnpm build:react && pnpm build:svelte && pnpm build:spring && pnpm build:flip"
   },
   "packageManager": "pnpm@7.0.0",
   "pnpm": {
     "overrides": {
-      "crossani": "workspace:*",
-      "@crossani/solid": "workspace:*",
-      "@crossani/react": "workspace:*",
-      "@crossani/svelte": "workspace:*",
-      "@crossani/vue": "workspace:*",
-      "@crossani/spring": "workspace:*"
+      "crossani": "workspace:^",
+      "@crossani/solid": "workspace:^",
+      "@crossani/react": "workspace:^",
+      "@crossani/svelte": "workspace:^",
+      "@crossani/vue": "workspace:^",
+      "@crossani/spring": "workspace:^",
+      "@crossani/flip": "workspace:^"
     }
   }
 }
