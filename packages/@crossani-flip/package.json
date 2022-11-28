@@ -8,6 +8,10 @@
   "main": "dist/cjs.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "./agnostic": "./dist/agnostic.js",
+    "./vanilla": "./dist/vanilla.js"
+  },
   "author": "Cain Atkinson",
   "license": "MIT",
   "devDependencies": {

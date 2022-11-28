@@ -35,3 +35,15 @@ box.doFlip(
     box.caSet("scale", "1.25 0.75");
   }
 ).then(() => console.log("done"));
+```
+
+## Animation library agnostic usage
+This library is built with support for any animation tool (as long as you can
+provide the functions that it needs to work).
+
+To use with CrossAni, simply import `@crossani/flip`.
+
+To use with the Web Animations API, import `@crossani/flip/vanilla`.
+
+To use with your own animation library, import `@crossani/flip/agnostic`
+and call `initFlipAgnostic` to setup the functions. After that use as normal.
