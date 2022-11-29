@@ -5,6 +5,12 @@ import { EASE } from "crossani";
 
 export type { PartSpr, SpringCfg } from "./types";
 
+// https://stackoverflow.com/a/50596945
+const betweenEase = "cubic-bezier(0.364212423249, 0, 0.635787576751, 1)";
+// ease-out still isn't an ideal starting point, but it looks weird for it to accelerate slowly
+// when released from the spring as opposed to just going straight away
+const startEase = EASE.out;
+
 const cancelSym = Symbol();
 
 declare global {
@@ -55,7 +61,7 @@ Element.prototype.doSpring = async function (
     await this.doTransition({
       state: { [prop]: value },
       ms: time,
-      easing: first ? EASE.out : EASE.inOut,
+      easing: first ? startEase : betweenEase,
       detached: true,
     });
 
