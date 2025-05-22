@@ -2,6 +2,8 @@
 
 A silky smooth declarative animation library for the web.
 
+CrossAni is end of life. It works fine still but will no longer be developed. It is now public domain. - 2025-05-22
+
 For more information, see the relevant packages:
 
 - [`crossani`](https://github.com/lexisother/CrossAni/tree/master/packages/crossani#readme)
